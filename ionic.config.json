@@ -1,0 +1,8 @@
+{
+  "name": "MedicalExpress",
+  "integrations": {
+    "cordova": {},
+    "capacitor": {}
+  },
+  "type": "angular"
+}

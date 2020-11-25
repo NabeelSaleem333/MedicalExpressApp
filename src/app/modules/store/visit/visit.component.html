@@ -1,0 +1,188 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="flag1">{{ storeServ.store.name }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="showCart()">
+        <ion-icon name="cart-outline"></ion-icon>
+        <p>{{ cartCounter }}</p>
+      </ion-button>
+      <ion-button (click)="logout()">
+        <ion-icon name="person"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-item *ngIf="mflag">
+  <ion-list-header>
+    Category:
+    <ion-select value="all" (ionChange)="onSelect($event)">
+      <ion-select-option value="all">All</ion-select-option>
+      <ion-select-option value="Tablet">Tablet</ion-select-option>
+      <ion-select-option value="Capsul">Capsule</ion-select-option>
+      <ion-select-option value="Syrup">Syrup</ion-select-option>
+      <ion-select-option value="Injection">Injection</ion-select-option>
+      <ion-select-option value="Tube">Tube</ion-select-option>
+      <ion-select-option value="Others">Others</ion-select-option>
+    </ion-select>
+  </ion-list-header>
+
+  <ion-buttons slot="end">
+    <!-- <ion-button (click)="searchBarDisplay()">
+      <ion-icon name="search"></ion-icon>
+    </ion-button> -->
+    <ion-button (click)="listDisplay()">
+      <ion-icon name="list"></ion-icon>
+    </ion-button>
+    <ion-button (click)="cardDisplay()">
+      <ion-icon name="grid"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-item>
+
+<ion-item *ngIf="mflag">
+  <ion-searchbar
+    color="medium"
+    placeholder="Search by store name or address"
+    (keyup)="onKeyUp($event)"
+  ></ion-searchbar>
+  <!-- <ion-buttons>
+    <ion-button (click)="searchBarDisplay()">
+      <ion-icon name="close"></ion-icon>
+    </ion-button>
+  </ion-buttons> -->
+</ion-item>
+
+<ion-content>
+  <!-- ORDER COMPONENT ADDED HERE -->
+  <div *ngIf="orderflag">
+    <!-- <ion-item lines="none">
+      <ion-button slot="end" (click)="closeOrderFunc()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-item> -->
+    <!-- <app-order [orderMedicine]="orderMedicine"></app-order> -->
+  </div>
+  <!-- No internet flag -->
+  <div *ngIf="internetflag">
+    <div *ngIf="mflag">
+      <ion-grid>
+        <ion-row *ngIf="!switch">
+          <ion-col >
+            <ion-list *ngFor="let medicine of medicineServ.storeMedicineArray">
+              <div *ngIf="medicine.format === onselect || onselect === 'all'">
+                <ion-item style="border-radius: 1em;" lines="none">
+                  <ion-label>
+                    <!-- <ion-avatar> -->
+                    <img
+                      src="assets/images/MartialKing.PNG"
+                      style="height: 100px; width: 100px;"
+                    />
+                    <!-- </ion-avatar> -->
+                  </ion-label>
+                  <ion-label>
+                    <h4 style="color: black; font: bold; font-size: 14px;">
+                      {{ medicine.medicinename }}
+                    </h4>
+                    <p>{{ medicine.formula }}</p>
+                    <!-- </ion-label> -->
+                    <!-- <ion-label style="text-align: center;"> -->
+                    <p>{{ medicine.format }}</p>
+                    <p>{{ medicine.ingredients }}mg</p>
+                    <!-- </ion-label> -->
+                    <!-- <ion-label style="text-align: center;"> -->
+                    <p>Qty:{{ medicine.quantity }}</p>
+                    <p>Rs.{{ medicine.price }}</p>
+                  </ion-label>
+
+                  <div>
+                    <!-- <ion-buttons> -->
+                    <ion-button
+                      slot="end"
+                      color="primary"
+                      margin-top
+                      (click)="
+                        openOrderModalController(medicine, storeServ.store._id)
+                      "
+                      >Order
+                      <!-- <ion-icon name="navigate-sharp"></ion-icon> -->
+                    </ion-button>
+                    <br />
+                    <!-- <ion-button>
+                      <ion-icon name="add"></ion-icon>
+                    </ion-button>
+                    <ion-label></ion-label>
+                    <ion-button>
+                      <ion-icon name="remove"></ion-icon>
+                    </ion-button> -->
+                    <!-- (click)="addQuantity(medicine.id)" -->
+                    <ion-button
+                      slot="end"
+                      color="success"
+                      (click)="cartFunc(medicine.id)"
+                      >
+
+                      <ion-icon name="cart"></ion-icon>
+                    </ion-button>
+                    <!-- </ion-buttons> -->
+                  </div>
+                </ion-item>
+                <ion-item> </ion-item>
+              </div>
+            </ion-list>
+          </ion-col>
+        </ion-row>
+        <!-- CARD DISPLAY -->
+        <ion-row *ngIf="switch">
+          <ion-col *ngFor="let medicine of medicineServ.storeMedicineArray" 
+          >
+            <!-- In this form of Cards the Data will be present -->
+            <div *ngIf="medicine.format === onselect || onselect === 'all'">
+              <ion-card
+                class="welcome-card"
+                style="width: 250px;height:400px; border-radius: 10px;"
+                color="dark"
+              >
+              <img style=" width: 250px;
+              height:200px;  border: 3px solid white; border-radius: 10px;" 
+              [src]="medicine.image" alt="Medicine-Image" />
+                <ion-card-header>
+                  <ion-card-title>{{ medicine.medicinename }}</ion-card-title>
+                  <ion-card-subtitle>{{ medicine.formula }}</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                  <p>{{ medicine.format }}/ {{ medicine.ingredients }}mg</p>
+                  <p>Rs.{{ medicine.price }}</p>
+                  <!-- <ion-button
+                    color="primary"
+                    margin-top
+                    (click)="
+                      openOrderModalController(medicine, storeServ.store._id)
+                    "
+                    >Order
+                    <ion-icon name="navigate-sharp"></ion-icon>
+                  </ion-button> -->
+                  <ion-button slot="end" color="success"
+                  (click)="cartFunc(medicine.id)"
+                    >Cart
+                    <ion-icon name="cart"></ion-icon>
+                  </ion-button>
+                </ion-card-content>
+              </ion-card>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+    <div *ngIf="!mflag" style="text-align: center;">
+      <p>Oops, No Medicine</p>
+    </div>
+  </div>
+  <div *ngIf="!internetflag" style="text-align: center;">
+    <p>Oops, No Internet</p>
+  </div>
+</ion-content>

@@ -1,0 +1,122 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-item lines="none" color="primary">
+      <ion-buttons slot="start">
+        <ion-icon name="arrow-back" (click)="closeFunc()"></ion-icon>
+      </ion-buttons>
+      <ion-title>{{ storename }}</ion-title>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<!-- <app-medical-express-home></app-medical-express-home> -->
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <h3 style="text-align: center;" *ngIf="!flag">Add Medicine</h3>
+        <h3 style="text-align: center;" *ngIf="flag">Edit Medicine</h3>
+        <form [formGroup]="medicineForm" id="form">
+          <!-- <ion-input
+            type="hidden"
+            name="_id"
+            formControlName="name"
+
+          ></ion-input> -->
+          <ion-item>
+            <ion-label position="floating"> Name</ion-label>
+            <ion-input
+              type="text"
+              name="medicinename"
+              maxlength="20"
+              formControlName="medicinename"
+              autocapitalize="true"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Formula</ion-label>
+            <ion-input
+              type="text"
+              maxlength="30"
+              spellcheck="true"
+              name="formula"
+              formControlName="formula"
+              required
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Format</ion-label>
+            <ion-select
+              type="text"
+              name="format"
+              formControlName="format"
+              placeholder="Format"
+            >
+              <ion-select-option value="Tablet">Tablet</ion-select-option>
+              <ion-select-option value="Tube">Tube</ion-select-option>
+              <ion-select-option value="Capsule">Capsul</ion-select-option>
+              <ion-select-option value="Syrup">Syrup</ion-select-option>
+              <ion-select-option value="Injection">Injection</ion-select-option>
+              <ion-select-option value="Others">Others</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Ingredients/mg</ion-label>
+            <ion-input
+              type="text"
+              maxlength="15"
+              name="ingredients"
+              formControlName="ingredients"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Quantity</ion-label>
+            <ion-input
+              type="text"
+              maxlength="25"
+              name="quantity"
+              formControlName="quantity"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Price</ion-label>
+            <ion-input
+              type="text"
+              maxlength="11"
+              spellcheck="true"
+              name="price"
+              formControlName="price"
+              required
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label >Image</ion-label>
+            <ion-buttons slot="end"
+            >
+            <!--  -->
+            <input type="file"  (change)="selectImage($event)" class="field"/>
+          </ion-buttons>
+          </ion-item>
+
+          <ion-input
+            type="hidden"
+            name="store_id"
+            formControlName="store_id"
+          ></ion-input>
+          <ion-button
+            expand="block"
+            (click)="addMedicine(medicineForm)"
+            [disabled]="medicineForm.invalid"
+          >
+            <span *ngIf="!flag">Add Medicine</span>
+            <span *ngIf="flag">Edit Medicine</span>
+          </ion-button>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

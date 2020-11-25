@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-item lines="none" color="primary">
+      <ion-buttons slot="start">
+        <ion-icon name="arrow-back" (click)="closeFunc()"></ion-icon>
+      </ion-buttons>
+      <ion-title>Store Information</ion-title>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <h2 style="text-align: center;">{{ store.name }}</h2>
+        <ion-item>
+          <ion-label>
+            <h2>license No:</h2>
+            <h2>Contact No:</h2>
+            <h2>Date:</h2>
+            <h2>City:</h2>
+            <h2>Province:</h2>
+          </ion-label>
+          <ion-label slot="end">
+            <h2>{{ store.license }}</h2>
+            <h2>{{ store.contact }}</h2>
+            <h2>{{ store.date | date: "short" }}</h2>
+            <h2>{{ store.city }}</h2>
+            <h2>{{ store.province }}</h2>
+          </ion-label>
+        </ion-item>
+        <div style="text-align: center;">
+          <p>
+            <span>Address:</span> {{ store.address }} {{ store.city }}
+          </p>
+
+          <ion-button>
+            <ion-icon name="logo-google"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

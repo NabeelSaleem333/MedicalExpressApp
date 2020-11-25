@@ -1,0 +1,171 @@
+<!-- <app-header></app-header> -->
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+      <ion-back-button></ion-back-button> 
+      <!-- <ion-button (click)="closelogin()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button> -->
+    </ion-buttons>
+    <ion-title>Medical Express</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content >
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-md="6" offset-md="3" size-lg="4" offset-lg="4">
+        <!-- SignUp form -->
+        <form [formGroup]="signupform" id="form" *ngIf="flag">
+          <ion-card style="padding: 10px; margin: 10px; border: 3px solid black; border-radius: 10px;">
+            <!-- <h2>SignUp</h2> -->
+            <ion-card-header
+              ><ion-avatar id="avator"
+                ><img src="/assets/images/MartialKing.PNG" /></ion-avatar
+            ></ion-card-header>
+            <ion-card-content>
+              <!-- Username -->
+              <ion-item id="item">
+                <!-- <ion-label position="floating">Username</ion-label> -->
+                <ion-input
+                  type="text"
+                  name="username"
+                  formControlName="username"
+                  placeholder="Username"
+                ></ion-input>
+              </ion-item>
+              <p
+                *ngIf="
+                  signupform.controls.username.invalid &&
+                  signupform.controls.username.touched
+                "
+              >
+                Username is required, Only Letters
+              </p>
+              <br />
+
+              <!-- Email Address -->
+              <ion-item id="item">
+                <!-- <ion-label position="floating">Email</ion-label> -->
+                <ion-input
+                  type="email"
+                  name="email"
+                  formControlName="email"
+                  placeholder = "Email address..."
+                ></ion-input>
+              </ion-item>
+              <p
+                *ngIf="
+                  signupform.controls.email.invalid &&
+                  signupform.controls.email.touched
+                "
+              >
+                Email is required, Only gmail accounts
+              </p>
+              <br />
+              <!-- Password -->
+              <ion-item id="item">
+                <!-- <ion-label position="floating">Password</ion-label> -->
+                <ion-input
+                  type="password"
+                  name="password"
+                  formControlName="password"
+                  placeholder="Password"
+                ></ion-input>
+              </ion-item>
+              <p
+                *ngIf="
+                  signupform.controls.password.invalid &&
+                  signupform.controls.password.touched
+                "
+              >
+                Password is required. It's length must be 8 combination of letters and numbers
+              </p>
+            </ion-card-content>
+            <!-- login button -->
+            <ion-button
+              type="submit"
+              (click)="signUpFunc()"
+              [disabled]="signupform.invalid"
+              >SignUp</ion-button
+            >
+            <br />
+            <p>
+              I have an Account! <a
+                style="color: blue"
+                (click)="loginInit()"
+                >login</a
+              >
+            </p>
+          </ion-card>
+        </form>
+        <!-- Login form -->
+        <form [formGroup]="loginform" id="form" *ngIf="!flag">
+          <ion-card style="padding: 10px; margin: 20px; border: 3px solid black; border-radius: 10px;" >
+            <!-- <h2>Login</h2> -->
+            <ion-card-header
+              ><ion-avatar id="avator"
+                ><img src="/assets/images/MartialKing.PNG" /></ion-avatar
+            ></ion-card-header>
+            <ion-card-content>
+              <!-- Email Address -->
+              <ion-item id="item">
+                <!-- <ion-label position="floating">Email</ion-label> -->
+                <ion-input
+                  type="email"
+                  name="email"
+                  formControlName="email"
+                  placeholder="Email address"
+                ></ion-input>
+              </ion-item>
+              <p
+                *ngIf="
+                  loginform.controls.email.invalid &&
+                  loginform.controls.email.touched
+                "
+              >
+                Email is required. Only gmail accounts.
+              </p>
+              <br />
+              <!-- Password -->
+              <ion-item id="item">
+                <!-- <ion-label position="floating">Password</ion-label> -->
+                <ion-input
+                  type="password"
+                  name="password"
+                  formControlName="password"
+                  placeholder = "Password"
+                ></ion-input>
+              </ion-item>
+              <p
+                *ngIf="
+                  loginform.controls.password.invalid &&
+                  loginform.controls.password.touched
+                "
+              >
+              Password is required. It's length must be 8 combination of letters and numbers
+              </p>
+            </ion-card-content>
+            <!-- login button -->
+            <ion-button
+              type="submit"
+              (click)="loginFunc()"
+              [disabled]="loginform.invalid"
+              >Login</ion-button
+            >
+            <br />
+            <p>
+              Create Your Account...! <a
+                style="color: blue"
+                (click)="signUpInit()"
+                >SignUp</a
+              >
+            </p>
+          </ion-card>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

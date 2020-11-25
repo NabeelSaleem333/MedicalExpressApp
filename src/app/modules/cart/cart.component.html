@@ -1,0 +1,88 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Cart</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="cart"></ion-icon>
+        {{ cartCounter }}
+      </ion-button>
+      <ion-button>
+        <ion-icon name="person"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<h4 style="text-align: center; font: bold" *ngIf="cartCounter !== 0">
+  Shopping from: {{ storeCount }} Store(s)
+</h4>
+<ion-item *ngIf="cartCounter !== 0">
+  <ion-searchbar
+    color="medium"
+    placeholder="Search by store name or address"
+    (keyup)="onKeyUp($event)"
+  ></ion-searchbar>
+</ion-item>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col  size="12" size-md="6" size-lg="8" offset-md="2">
+        <div *ngIf="cartCounter !== 0">
+          <ion-list *ngFor="let cart of cart">
+            <!-- <ion-item lines="none">
+        <h2>{{ cart.name }}</h2>
+      </ion-item> -->
+
+            <ion-item lines="none">
+              <ion-label>
+                <img
+                  style="width: 100px; height: 100px"
+                  src="assets/images/MartialKing.PNG"
+                />
+              </ion-label>
+
+              <ion-label>
+                <!-- <p>{{ cart._id }}</p>  -->
+                <ion-buttons>
+                  {{ cart.name }}
+                  <ion-button (click)="visitStore(cart.storeId)">
+                    <ion-icon name="information-circle"></ion-icon>
+                  </ion-button>
+                </ion-buttons>
+                <p>
+                  Medicines: <ion-icon name="cart"></ion-icon>{{ cart.size }}
+                </p>
+              </ion-label>
+
+              <ion-buttons slot="end">
+                <!-- (click)="addQuantity(cart._id, cart.medicinename)" -->
+
+                <!-- -->
+                <ion-button (click)="removeAlert(cart.storeId, cart.name)">
+                  <ion-icon name="trash"></ion-icon>
+                </ion-button>
+                <ion-button (click)="cartMedicines(cart.storeId, cart.name)">
+                  <ion-icon name="chevron-forward"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+            </ion-item>
+            <ion-item>
+              <p style="text-align: center">{{ cart.address }}</p>
+            </ion-item>
+          </ion-list>
+        </div>
+
+        <div *ngIf="cartCounter === 0" style="text-align: center; font: bold">
+          <p>OOPs, Your Cart Is Empty!</p>
+          <ion-button (click)="navigateToMedicines()">
+            <ion-icon name="add"></ion-icon>
+            Cart
+          </ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

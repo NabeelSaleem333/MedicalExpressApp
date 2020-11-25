@@ -1,0 +1,106 @@
+<ion-header>
+  <ion-toolbar >
+    <ion-item lines="none" color="primary">
+    <ion-buttons slot="start">
+      <ion-icon name="arrow-back" (click)="closeFunc()"></ion-icon>
+    </ion-buttons>
+    <ion-title *ngIf="flag">Edit Store</ion-title>
+    <ion-title *ngIf="!flag">Create Store</ion-title>
+  </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<!-- The Form for the Medicine Inventory -->
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <!-- <P>{{createForm.value.date | date:'short'}}</P> -->
+      <ion-col padding="2em">
+        <form [formGroup]="createForm">
+          <!-- <ion-input type="hidden" name="_id" formControlName="_id"></ion-input> -->
+
+          <ion-item>
+            <ion-label position="floating">Name</ion-label>
+            <ion-input
+              type="text"
+              name="name"
+              maxlength="20"
+              formControlName="name"
+              
+              autocapitalize="true"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>Image</ion-label>
+            <ion-buttons slot="end"
+            >
+            <!--  -->
+            <input type="file"  (change)="selectImage($event)" class="field"/>
+          </ion-buttons>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">License#</ion-label>
+            <ion-input
+              type="text"
+              maxlength="11"
+              spellcheck="true"
+              name="license"
+              formControlName="license"
+              required
+            ></ion-input>
+          </ion-item>
+
+
+          <ion-item>
+            <ion-label position="floating">Contact</ion-label>
+            <ion-input
+              type="text"
+              maxlength="15"
+              name="contact"
+              formControlName="contact"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Address</ion-label>
+            <ion-input
+              type="text"
+              maxlength="100"
+              name="address"
+              formControlName="address"
+            ></ion-input>
+          </ion-item>
+
+
+          <ion-item>
+            <ion-label position="floating">City</ion-label>
+            <ion-select name="city" formControlName="city" value="Rawalpindi" (ionChange)="selectCity($event)">
+              <ion-select-option value="Islamabad">Islamabad</ion-select-option>
+              <ion-select-option value="Rawalpindi">Rawalpindi</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Province</ion-label>
+            <ion-input 
+            value="{{createForm.value.province}}"
+            type="text"
+            maxlength="100"
+            name="province"
+            formControlName="province"
+            readonly></ion-input>
+          </ion-item>
+
+          <!-- <ion-input type="hidden" formControlName="store_id"></ion-input> -->
+          <div style="text-align: right;">
+            <ion-button [disabled]="!createForm.valid" >Reset</ion-button>
+            <ion-button  (click)="SubmitForm()"
+              >Submit</ion-button
+            >
+          </div>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<!-- <app-medical-express-home></app-medical-express-home> -->

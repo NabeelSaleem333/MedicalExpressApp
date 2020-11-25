@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-item lines="none" color="primary">
+      <ion-buttons slot="start">
+        <ion-icon name="arrow-back" (click)="closeFunc()"></ion-icon>
+      </ion-buttons>
+      <ion-title>{{ storename }}</ion-title>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <h4 style="text-align: center;">Inventory Information</h4>
+        <ion-item>
+          <ion-label>
+            <h2>Tablets:</h2>
+            <h2>Capsules:</h2>
+            <h2>Tube:</h2>
+            <h2>Syrup:</h2>
+            <h2>Injection:</h2>
+            <h2>Others:</h2>
+          </ion-label>
+          <ion-label slot="end">
+            <h2>{{ tabCount }}</h2>
+            <h2>{{ capCount }}</h2>
+            <h2>{{ tubCount }}</h2>
+            <h2>{{ spCount }}</h2>
+            <h2>{{ injCount }}</h2>
+            <h2>{{ othersCount }}</h2>
+          </ion-label>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Ordering {{storeName}}</ion-title>
+    <ion-buttons slot="end" (click)="closeOrder()">
+      <ion-icon name="close"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{ medicine.medicinename }}</ion-card-title>
+      <!-- <ion-buttons (click)="closeOrder()">
+      <ion-icon name="close"></ion-icon>
+    </ion-buttons> -->
+      <ion-card-subtitle>
+        <p>{{ medicine.formula }}</p>
+        <p>{{ medicine.format }}/{{ medicine.ingredients }}mg</p>
+        <ion-item>
+          <ion-label>
+            <p>Rs.{{ medicine.price }}</p>
+          </ion-label>
+          <ion-item style="width: 100px;">
+            <ion-label position="floating">Quantity</ion-label>
+            <ion-input
+              type="number"
+              value="1"
+              (ionChange)="onKeyUp($event, medicine.price)"
+            ></ion-input>
+          </ion-item>
+        </ion-item>
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item lines="none">
+        <ion-label> Total Amount: Rs.{{ TotalAmount }} </ion-label>
+        <ion-button slot="end">
+          Pay
+        </ion-button>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

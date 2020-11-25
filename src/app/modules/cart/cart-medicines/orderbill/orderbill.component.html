@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="closeFunc()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Transcript</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <h3 style="text-align: center;">Bill Details</h3>
+  <div *ngIf="loadflag">
+    <ion-item>
+      <ion-label>
+        {{date | date:'short'}}
+        <h3>{{ storeServ.store.name }}</h3>
+        <h3>{{ storeServ.store.contact }}</h3>
+        <h3>{{ storeServ.store.address }}</h3>
+      </ion-label>
+    </ion-item>
+    <ion-list >
+      <ion-item *ngFor="let item of cart">
+        <ion-label slot="start">
+          <h4>{{item.medicinename}}</h4>
+          <!-- <h4>Delivery Charges</h4>
+          <h4>Discount</h4>
+          <h4>Grand Total</h4> -->
+        </ion-label>
+        <ion-label slot="end">
+          <h4>{{item.price * item.quantity}}</h4>
+          <!-- <h4>Rs.0</h4>
+          <h4>Rs.0</h4>
+          <h4>Rs.0</h4> -->
+        </ion-label>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item>
+        <ion-label slot="start">
+          <h4>Sub Total</h4>
+          <h4>Delivery Charges</h4>
+          <h4>Discount</h4>
+          <h4>Grand Total</h4>
+        </ion-label>
+        <ion-label slot="end">
+          <h4>Rs.{{subtotal}}</h4>
+          <h4>Rs.{{charges}}</h4>
+          <h4>Rs.{{discount}}</h4>
+          <h4>Rs.{{total}}</h4>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+    <!-- <form>
+      <label>Payment: </label>
+      <input type="number" placeholder="e.g; Rs.500" />
+    </form> -->
+    <div style="text-align: center;">
+      <ion-label>Payment Method</ion-label>
+      <br>
+      <ion-button>By Cash</ion-button>
+      <ion-button>Easypaisa</ion-button>
+    </div>
+  </div>
+  <div *ngIf="!loadflag">
+    <p style="text-align: center;">Oops, thers is problem</p>
+  </div>
+</ion-content>
+<ion-button (click)="checkOut()">
+  Pay Now
+</ion-button>

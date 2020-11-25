@@ -1,0 +1,79 @@
+<ion-app>
+  <ion-split-pane contentId="main-content" [when]="isDesktop">
+    <ion-menu contentId="main-content" type="overlay">
+      <ion-header >
+        <ion-toolbar color="success">
+          <ion-buttons slot="start">
+            <ion-menu-button autoHide="false">
+           </ion-menu-button>
+          </ion-buttons>
+          <ion-title>
+            Medical Express
+          </ion-title>
+        </ion-toolbar>
+        <!-- <ion-list-header>Inbox</ion-list-header>
+        <ion-note>hi@ionicframework.com</ion-note>  -->
+      </ion-header>
+      <ion-content>
+        <!-- General List -->
+        <div *ngIf="!jwtServ.getToken()">      
+          <ion-list-header color="primary">General</ion-list-header>
+        <ion-list id="inbox-list">
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
+            <ion-item (click)="selectedIndex = i" routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" [class.selected]="selectedIndex == i">
+              <!-- If user logged in then these options -->
+            <!-- <div *ngIf="jwtServ.getToken() && p.title !== 'Login' && p.title !== 'SignUp'">
+              <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+              <ion-label>{{ p.title }}</ion-label>
+            </div> -->
+
+            <!-- If User not log in then show these options -->
+  
+              <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+              <ion-label>{{ p.title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+      </div>
+
+        <!-- List User -->
+        <div *ngIf="jwtServ.getToken()">
+          <div style="text-align: center;">          
+            <ion-icon name="create" size="large" (click)="onPickImage()" role="button"></ion-icon>
+            <input #filePicker style="display:none;" type="file"  (change)="selectImage($event)" class="field"/>
+            <ion-avatar style="margin: auto; position: relative; width: 120px; height: 120px;">
+            
+            <img *ngIf="imageUrl === null" src="assets/images/user.png" />
+            <img *ngIf="imageUrl != null" [src]="imageUrl" />
+            <!-- <ion-icon class="icon"  name="camera-outline"></ion-icon> -->
+            
+          </ion-avatar>
+          <h3>{{jwtServ.getUserName()}}</h3>
+          <!-- <br/> -->
+          <ion-label>{{jwtServ.getUserEmail()}}</ion-label>
+        </div>
+
+          <ion-item-divider></ion-item-divider>
+        <!-- <ion-list-header color="primary">Dashboard</ion-list-header> -->
+        <ion-list id="inbox-list">
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of userPages; let i = index">
+            <ion-item (click)="selectedIndex = i" routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" [class.selected]="selectedIndex == i">
+              <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+              <ion-label *ngIf="p.title !== 'logout'">{{ p.title }}</ion-label>
+              <ion-label *ngIf="p.title === 'logout'" (click)="logout()">{{p.title}}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+      </div>
+        <ion-list id="labels-list">
+          <ion-list-header>Labels</ion-list-header>
+          <ion-item *ngFor="let label of labels" lines="none">
+            <ion-icon slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
+            <ion-label>{{ label }}</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>
