@@ -39,9 +39,9 @@
         <!-- List User -->
         <div *ngIf="jwtServ.getToken()">
           <div style="text-align: center;">          
-            <ion-icon name="create" size="large" (click)="onPickImage()" role="button"></ion-icon>
+            <ion-icon style="visibility: hidden;" name="create" size="large" (click)="onPickImage()" role="button"></ion-icon>
             <input #filePicker style="display:none;" type="file"  (change)="selectImage($event)" class="field"/>
-            <ion-avatar style="margin: auto; position: relative; width: 120px; height: 120px;">
+            <ion-avatar (click)="onPickImage()" style="margin: auto; position: relative; width: 120px; height: 120px;">
             
             <img *ngIf="imageUrl === null" src="assets/images/user.png" />
             <img *ngIf="imageUrl != null" [src]="imageUrl" />
@@ -65,13 +65,13 @@
           </ion-menu-toggle>
         </ion-list>
       </div>
-        <ion-list id="labels-list">
+        <!-- <ion-list id="labels-list">
           <ion-list-header>Labels</ion-list-header>
           <ion-item *ngFor="let label of labels" lines="none">
             <ion-icon slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
             <ion-label>{{ label }}</ion-label>
           </ion-item>
-        </ion-list>
+        </ion-list> -->
       </ion-content>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>

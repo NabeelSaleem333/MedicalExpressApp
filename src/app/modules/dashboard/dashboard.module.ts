@@ -12,17 +12,21 @@ import { MedicineonstoreComponent } from '../medicine/medicineonstore/medicineon
 import { OrdersComponent } from './mystore/orders/orders.component';
 import { OrdertypeComponent } from './mystore/orders/ordertype/ordertype.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { StoreinfoComponent } from './mystore/storeinfo/storeinfo.component';
+import { OrderdetailComponent } from './mystore/orders/orderdetail/orderdetail.component';
 
 @NgModule({
   declarations: [
     MystoreComponent,
     CreatestoreComponent,
+    StoreinfoComponent,
     InfoComponent,
     InventoryComponent,
     AddmedicineComponent,
     MedicineinfoComponent,
     OrdersComponent,
-    OrdertypeComponent
+    OrdertypeComponent,
+    OrderdetailComponent,
   ],
   imports: [CommonModule, IonicModule, FormsModule, ReactiveFormsModule,
     Ng2SearchPipeModule],

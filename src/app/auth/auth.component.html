@@ -42,7 +42,7 @@
                   signupform.controls.username.touched
                 "
               >
-                Username is required, Only Letters
+                Letters only
               </p>
               <br />
 
@@ -62,7 +62,7 @@
                   signupform.controls.email.touched
                 "
               >
-                Email is required, Only gmail accounts
+                example@gmail.com
               </p>
               <br />
               <!-- Password -->
@@ -81,7 +81,7 @@
                   signupform.controls.password.touched
                 "
               >
-                Password is required. It's length must be 8 combination of letters and numbers
+                length 8 combination of letters and numbers
               </p>
             </ion-card-content>
             <!-- login button -->
@@ -126,7 +126,7 @@
                   loginform.controls.email.touched
                 "
               >
-                Email is required. Only gmail accounts.
+                example@gmail.com
               </p>
               <br />
               <!-- Password -->
@@ -145,7 +145,7 @@
                   loginform.controls.password.touched
                 "
               >
-              Password is required. It's length must be 8 combination of letters and numbers
+              length 8 combination of letters and numbers
               </p>
             </ion-card-content>
             <!-- login button -->
@@ -163,6 +163,7 @@
                 >SignUp</a
               >
             </p>
+              <a (click)="navigateToForget()">forget password</a>
           </ion-card>
         </form>
       </ion-col>

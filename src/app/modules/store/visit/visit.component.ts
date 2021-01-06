@@ -117,6 +117,7 @@ One Store Record
   }
 
   showCart() {
+    this.cartCounter = 0;
     this.router.navigate(['cart']);
   }
 

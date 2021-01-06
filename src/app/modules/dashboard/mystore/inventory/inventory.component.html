@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <!-- <ion-menu-button></ion-menu-button> -->
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>Inventory</ion-title>
@@ -21,50 +21,15 @@
       <ion-button slot="end" (click)="deleteAlert()"
         ><ion-icon name="trash"></ion-icon
       ></ion-button>
-      <!-- <ion-button (click)="listDisplay()">
-        <ion-icon name="list"></ion-icon>
-      </ion-button> -->
-      <!--  -->
-      <!-- <ion-button (click)="cardDisplay()">
-        <ion-icon name="grid"></ion-icon>
-      </ion-button> -->
+
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
+<div *ngIf="!loading">
 <div  style="text-align: center">
-<!-- <ion-card color="primary">
-  <ion-card-header>
-    <ion-card-title> -->
 <h2 >{{ storename }}</h2>
-<!-- <div style="text-align: center"> -->
-<!-- <ion-item  lines="none" > -->
-<!-- <ion-buttons> -->
-<!-- 
-<ion-button slot="end">
-  <ion-icon name="filter"> </ion-icon>
-</ion-button> -->
-<!-- 
-<ion-select style="width: 100px;" name="fil" value="all" (ionChange)="onSelect($event)">
-  <ion-select-option value="all">Filter</ion-select-option>
-  <ion-select-option value="tablet">Tablet</ion-select-option>
-  <ion-select-option value="capsule">Capsule</ion-select-option>
-  <ion-select-option value="syrup">Syrup</ion-select-option>
-  <ion-select-option value="injection">Injection</ion-select-option>
-  <ion-select-option value="tube">Tube</ion-select-option>
-  <ion-select-option value="others">Others</ion-select-option>
-</ion-select> -->
-
-<!-- </ion-buttons> -->
-<!-- </ion-item> -->
 </div>
-    <!-- </ion-card-title>
-  </ion-card-header>  -->
-<!-- <ion-card-content>Add medicines into your Store</ion-card-content> -->
-<!-- </ion-card> -->
 
-<!--  -->
-<!-- *ngIf="searchflag" -->
 <ion-item *ngIf="success">
   <ion-searchbar
     color="medium"
@@ -73,15 +38,27 @@
     
   ></ion-searchbar>
 </ion-item>
-<!-- </div> -->
+<ion-list-header *ngIf="success" >
+  <ion-select value="all" (ionChange)="onSelect($event)">
+    <ion-select-option value="all">All</ion-select-option>
+    <ion-select-option value="Tablet">Tablet</ion-select-option>
+    <ion-select-option value="Tube">Tube</ion-select-option>
+    <ion-select-option value="Capsule">Capsule</ion-select-option>
+    <ion-select-option value="Syrup">Syrup</ion-select-option>
+    <ion-select-option value="Injection">Injection</ion-select-option>
+    <ion-select-option value="Others">Others</ion-select-option>
+  </ion-select>
+</ion-list-header>
+</div>
 <!-- The Form for the Medicine Inventory -->
 <ion-content>
+  <div *ngIf="!loading">
   <ion-grid>
     <div *ngIf="success">
       <ion-row *ngIf="!switch">
         <ion-col size="12" size-md="6" size-lg="8" offset-md="2">
-          <ion-list *ngFor="let m of medicineServ.storeMedicineArray | filter:search">
-            <ion-item >
+          <ion-list *ngFor="let m of tempArray | filter:search">
+            <ion-item *ngIf="m.format || onselect === 'all'">
               <!-- <ion-avatar> -->
               <!-- <img [src]="m.image" /> -->
               <img
@@ -93,14 +70,13 @@
               />
               <!-- </ion-avatar> -->
               <ion-label>
-                <p>{{ m.medicinename }}</p>
-                <p>{{ m.formula }}</p>
+                <h2>{{ m.medicinename }}</h2>
+                <!-- <p>{{ m.formula }}</p> -->
                 <p>{{ m.format }}</p>
-              </ion-label>
-              <ion-label style="text-align: center">
                 <p>{{ m.ingredients }}mg</p>
                 <p>Rs.{{ m.price }}</p>
                 <p>qty: {{ m.quantity }}</p>
+  
               </ion-label>
               <ion-buttons slot="end">
                 <ion-button (click)="openEditMedicineModal(storename, m)">
@@ -114,36 +90,6 @@
           </ion-list>
         </ion-col>
       </ion-row>
-
-      <!-- CARD DISPLAY -->
-      <!-- <ion-row *ngIf="switch">
-        <ion-col *ngFor="let m of medicineServ.storeMedicineArray"> -->
-          <!-- In this form of Cards the Data will be present -->
-          <!-- <ion-card
-            class="welcome-card"
-            style="width: 300px; margin: 0em"
-            color="light"
-          >
-            <img height="100px;" [src]="imageurl" alt="Store-Image" />
-            <ion-card-header>
-              <ion-card-title>{{ m.medicinename }}</ion-card-title>
-              <ion-card-subtitle>{{ m.formula }}</ion-card-subtitle>
-            </ion-card-header>
-            <ion-card-content>
-              <p>{{ m.format }}</p>
-              <p>{{ m.ingredients }}mg</p>
-              <ion-buttons>
-                <ion-button (click)="openEditMedicineModal(storename, m)">
-                  <ion-icon name="create"></ion-icon>
-                </ion-button>
-                <ion-button (click)="deleteSingleAlert(m.id, m.medicinename)">
-                  <ion-icon name="trash"></ion-icon>
-                </ion-button>
-              </ion-buttons>
-            </ion-card-content>
-          </ion-card> -->
-        <!-- </ion-col>
-      </ion-row> -->
     </div>
     <!-- Message if no record found from the database -->
     <div *ngIf="!success">
@@ -152,6 +98,19 @@
       </p>
     </div>
   </ion-grid>
+</div>
+<div *ngIf="loading">
+  <ion-list>
+    <ion-item *ngFor="let s of skeletonlist">
+      <ion-thumbnail slot="start">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-thumbnail>
+      <ion-label>
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</div>
 </ion-content>
 
 <!-- <app-medical-express-home></app-medical-express-home> -->

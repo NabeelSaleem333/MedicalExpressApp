@@ -11,6 +11,7 @@ import { StoresService } from 'src/app/Services/store/stores.service';
 import { Store } from 'src/app/models/schemas';
 import { OrderService } from 'src/app/Services/order/order.service';
 import { JwtService } from 'src/app/core/services/jwt.service';
+import { MessageService } from 'src/app/Services/message/message.service';
 
 @Component({
   selector: 'app-orders',
@@ -36,7 +37,8 @@ export class OrdersComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private orderServ: OrderService,
-    private jwtServ: JwtService
+    private jwtServ: JwtService,
+    private msgServ: MessageService,
   ) {}
 
   ngOnInit() {
@@ -50,7 +52,7 @@ export class OrdersComponent implements OnInit {
       if (data.success) {
         this.buyer_newCount = data.buyer_orders.new;
         this.buyer_cancelCount = data.buyer_orders.cancel;
-        this.buyer_completeCount = data.buyer_orders.complete;
+        this.buyer_completeCount = data.buyer_orders.received;
         console.log(this.buyer_newCount, this.buyer_cancelCount, this.buyer_completeCount);
       } else {
         console.log('There is no order in the list');
@@ -72,8 +74,28 @@ export class OrdersComponent implements OnInit {
             // console.log(data.status);
             this.orders = data.buyer_orders;
             console.log(this.orders);
+            this.msgServ.message(data.status);
+          } else {
+            this.msgServ.message(data.status);
           }
         });
+  }
+
+    /*  */
+   cancelOrder(orderId: string, orderstatus: string) {
+      this.orderServ.update_order_status(orderId, orderstatus).subscribe(data => {
+          console.log(data);
+          this.getOrderList();
+          this.msgServ.message(data.status);
+      });
+    }
+  /*  */
+  receivedOrder(orderId: string, orderstatus: string) {
+  this.orderServ.update_order_status(orderId, orderstatus).subscribe(data => {
+      console.log(data);
+      this.getOrderList();
+      this.msgServ.message(data.status);
+  });
   }
   /*
   This function is used to navigate to the orders
@@ -81,6 +103,9 @@ export class OrdersComponent implements OnInit {
  */
     navigateToOrderType(usertype: string, id: string) {
     this.router.navigate(['dashboard', 'mystore', 'orders', usertype, id]);
+  }
+  orderdetail(id: string) {
+    this.router.navigate(['orders/orderdetail', id]);
   }
 }
 

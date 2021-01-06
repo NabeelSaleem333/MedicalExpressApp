@@ -54,4 +54,10 @@ export class JwtService {
   public getUserEmail() {
     return window.localStorage.getItem('email');
   }
+  public setUserImage(image: string) {
+    return window.localStorage.setItem('image', image );
+  }
+  public getUserImage() {
+    return window.localStorage.getItem('image');
+  }
 }

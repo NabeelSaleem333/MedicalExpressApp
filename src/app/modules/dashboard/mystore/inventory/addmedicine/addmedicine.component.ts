@@ -59,18 +59,12 @@ export class AddmedicineComponent implements OnInit {
       image: [''],
       formula: ['', Validators.required],
       format: ['', Validators.required],
-      ingredients: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+      ingredients: ['', [Validators.required, Validators.pattern('^[0-9]*\.?[0-9]*$')]],
       quantity: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-      price: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+      price: ['', [Validators.required, Validators.pattern('^[0-9]*\.?[0-9]*$')]],
       store_id: ['1', Validators.required], // Assign Raw 1 ID for medicine form initialization
     });
   }
-   //
-  //  onPickImage() {
-  //   this.filePickerRef.nativeElement.click();
-  //   // return;
-  // }
-  //
   async selectImage(event) {
     console.log(event.target.files);
     if (event.target.files.length > 0) {
@@ -82,30 +76,21 @@ export class AddmedicineComponent implements OnInit {
       obs.subscribe((data) => {
         console.log(data);
         this.imageUrl = data;
-        // setTimeout(() => {
-        //   const obsDel = this.firebaseServImg.deleteImage(data);
-        //   console.log(obsDel);
-        //   // tslint:disable-next-line: no-shadowed-variable
-        //   // obsDel.subscribe((data: any) => {
-        //   // console.log(data);
-        //   this.imageUrl = null;
-
-        //   // });
-        // }, 20000);
       });
     }
   }
   //
   //
   public addMedicine(form: FormGroup) {
-    // console.log(this.medicineForm.value);
+    console.log(this.medicineForm.value);
     // Adding New Medicine in the database
-    if (!this.medicine) {
+    if (!this.flag) {
       this.medicineForm.value.store_id = this.storeId;
-      // this.medicineForm.value.image = this.imageUrl;
-      this.medicineForm.value.image = 'src/assets/images/user.png';
+      this.medicineForm.value.image = this.imageUrl;
+      // this.medicineForm.value.image = 'src/assets/images/user.png';
       this.medicineServ.addMedicine(this.medicineForm.value).subscribe(
         (data) => {
+          console.log(data);
           if (data) {
             this.medicineServ.medicine = data;
             this.message('Medicine Saved Success!');
@@ -128,6 +113,7 @@ export class AddmedicineComponent implements OnInit {
         ingredients: this.medicineForm.value.ingredients,
         quantity: this.medicineForm.value.quantity,
         price: this.medicineForm.value.price,
+        image: this.imageUrl,
       };
       console.log(medicineObj);
       console.log(this.medicine.storeId, this.medicine.id);

@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-item lines="none" color="primary">
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+        <ion-title>Store Information</ion-title>
+      <ion-buttons slot="end">
+        <ion-button slot="end" (click)="openEditModal(store)"
+          ><ion-icon name="create-outline"></ion-icon></ion-button>
+        <ion-button slot="end" (click)="deleteAlert(store.name)" 
+          ><ion-icon name="trash"></ion-icon
+        ></ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="flag">
+  <ion-grid>
+    <ion-row >
+      <ion-col size="12" size-md="6" size-lg="6" offset-lg="3">
+        <h2 style="text-align: center;">{{ store.name }}</h2>
+        <ion-item>
+          <ion-label>
+            <h2>license No:</h2>
+            <h2>Contact No:</h2>
+            <h2>Date:</h2>
+            <h2>City:</h2>
+            <h2>Province:</h2>
+          </ion-label>
+          <ion-label slot="end">
+            <h2>{{ store.license }}</h2>
+            <h2>{{ store.contact }}</h2>
+            <h2>{{ store.date | date: "short" }}</h2>
+            <h2>{{ store.city }}</h2>
+            <h2>{{ store.province }}</h2>
+          </ion-label>
+        </ion-item>
+        <div style="text-align: center;">
+          <p>
+            <span>Address:</span> {{ store.address }} {{ store.city }}
+          </p>
+
+          <!-- <ion-button>
+            <ion-icon name="logo-google"></ion-icon>
+          </ion-button> -->
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -3,6 +3,7 @@ import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { MedicineService } from 'src/app/Services/medicine/medicine.service';
 import { Medicine } from 'src/app/models/schemas';
+import { HistoryService } from '../history/history.service';
 
 @Component({
   selector: 'app-medicine',
@@ -12,6 +13,7 @@ import { Medicine } from 'src/app/models/schemas';
 export class MedicineComponent implements OnInit {
   imageurl = 'assets/images/MartialKing.PNG';
   // Flags
+  loading = false;
   switch = true;
   flag1 = false;
   internetflag = true;
@@ -21,9 +23,11 @@ export class MedicineComponent implements OnInit {
   search: any;
   // Array
   tempArray: Medicine[];
+  skeletonlist = [1, 2, 3 , 4, 5, 6, 7, 8, 9, 10 ];
   // CONSTRUCTOR
   constructor(
     public medicineServ: MedicineService,
+    public historyServ: HistoryService,
     private toastController: ToastController,
     private router: Router
   ) {}
@@ -37,17 +41,24 @@ This Function is used to get
 All Stores Record
 */
   getMedicines() {
+    this.loading = true;
     this.medicineServ.getMedicines().subscribe(
       (data) => {
         if (data) {
           // this.presentToast();
+          setTimeout(() => {
+            this.loading = false;
+          }, 1000);
           console.log(data);
           this.tempArray = this.medicineServ.MedicineArray = data;
           this.flag1 = true;
           this.tempMedicineArray();
+        } else {
+          this.loading = false;
         }
       },
       (err) => {
+        this.loading = false;
         this.internetflag = false;
         console.log('Invalid Url');
       }
@@ -93,6 +104,18 @@ All Stores Record
     } else {
       this.tempMedicineArray();
     }
+  }
+
+  saveSearch(event: any) {
+    console.log(event.target.value);
+    var body = {
+      search: event.target.value
+    }
+    this.historyServ.save(body).subscribe(
+      (data) => {
+        console.log(data);
+      }
+    );
   }
   /*
   async presentToast() {

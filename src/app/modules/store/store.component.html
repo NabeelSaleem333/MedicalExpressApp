@@ -1,45 +1,29 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <!-- <ion-menu-button></ion-menu-button> -->
+      <ion-back-button></ion-back-button>
     </ion-buttons>
+
+    <!--New Changes-->
+    
     <ion-title>Store</ion-title>
     <ion-buttons slot="end">
-      <!-- <ion-buttons slot="end"> -->
-        <!-- <ion-button (click)="searchBarDisplay()">
-          <ion-icon name="search"></ion-icon>
-        </ion-button> -->
         <ion-button (click)="listDisplay()">
           <ion-icon name="list"></ion-icon>
         </ion-button>
         <ion-button (click)="cardDisplay()">
           <ion-icon name="grid"></ion-icon>
         </ion-button>
-      <!-- </ion-buttons> -->
-      <ion-button (click)="logout()">
-        <ion-icon name="person"></ion-icon>
-      </ion-button>
-
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<!-- <ion-label>Music</ion-label> -->
-<!-- <ion-item>
-  <ion-list-header style="text-align: right;"
-    ><ion-button (click)="navigateToMedicines()"
-      >Medicine<ion-icon name="navigate"></ion-icon></ion-button
-  ></ion-list-header>
-
-</ion-item> -->
-<!-- (keyup)="onKeyUp($event)" -->
-<ion-item >
-  <ion-searchbar *ngIf="flag1"
-    color="medium"
-    placeholder="Search by store name or address"
-    [(ngModel)]="search"
-  ></ion-searchbar>
-</ion-item>
-
+        <ion-searchbar *ngIf="flag1"
+          color="medium"
+          placeholder="Search by store name or address"
+          [(ngModel)]="search"
+          (change)="saveSearch($event)" autocorrect="off"
+        ></ion-searchbar>
 <ion-content>
   <div *ngIf="!loading">
     <!-- No internet flag -->
@@ -47,22 +31,19 @@
       <div *ngIf="flag1">
         <ion-grid>
           <ion-row *ngIf="!switch">
-            <ion-col>
+            <ion-col size="12" size-lg="8" offset-lg="2">
               <ion-list *ngFor="let store of storeServ.storeArray | filter: search">
-                <ion-item style="border-radius: 1em;" lines="none">
+                <ion-item  lines="none" color="light" (click)="visitStore(store._id)">
                   <ion-label>
                     <img
                       style="width: 100px; height: 100px;"
-                      [src]="store.image"
+                      src="{{store.image}}"
                     />
                   </ion-label>
                   <ion-label>
                     <h2 style="color: black; font: bold;">{{ store.name }}</h2>
                     <h4>{{ store.contact }}</h4>
                   </ion-label>
-                  <ion-button slot="end" (click)="visitStore(store._id)">
-                    <ion-icon name="navigate-sharp"></ion-icon>
-                  </ion-button>
                 </ion-item>
                 <ion-item>
                   <ion-label>
@@ -77,28 +58,20 @@
           <ion-row *ngIf="switch">
             <ion-col size="12" size-md="4" size-lg="3" *ngFor="let store of storeServ.storeArray | filter: search" >
               <!-- In this form of Cards the Data will be present -->
-              <ion-card *ngIf="store.userId != jwtServ.getUserId()"
-                class="welcome-card"
-                style="height:400px;width:250px;margin: 10px 20px;"
-                color="dark"
+              <ion-card 
+                style="height:400px;width:250px;margin: 10px 20px; text-align: center;"
+               
               >
-              <!--    [src]="imageurl" -->
-                <img style=" width: 250px;height:200px;  
-                border: 3px solid white; border-radius: 10px;"
-                [src]="store.image" alt="Store-Image" />
+              <!--    [src]="imageurl" border: 3px solid white; border-radius: 10px;"-->
+                <img style=" width: 250px;height:200px;"  
+                
+                src="{{store.image}}" alt="Store-Image" (click)="visitStore(store._id)"/>
                 <ion-card-header>
                   <ion-card-title>{{ store.name }}</ion-card-title>
                   <ion-card-subtitle>{{ store.contact }}</ion-card-subtitle>
                 </ion-card-header>
                 <ion-card-content>
                   <p>{{ store.address }} {{ store.city }}</p>
-                  <ion-button
-                    color="tertiary"
-                    margin-top
-                    (click)="visitStore(store._id)"
-                  >
-                    <ion-icon name="navigate"></ion-icon>
-                  </ion-button>
                 </ion-card-content>
               </ion-card>
             </ion-col>
@@ -127,23 +100,3 @@
     </ion-list>
   </div>
 </ion-content>
-
-<!-- <ion-col size-md="4">
-    <div id="image">
-    <img id="image" src="assets/images/MartialKing.PNG" />
-  </div>
-        <ion-card color="medium" class="headings">
-          <ion-card-content>Search Store</ion-card-content>
-        </ion-card>
-
-      </ion-col>
-      <ion-col size-md="4" >
-        <ion-card color="medium" class="headings">
-          <ion-card-content>Search Medicines</ion-card-content>
-        </ion-card>
-      </ion-col>
-      <ion-col size-md="4">
-        <ion-card color="medium" class="headings">
-          <ion-card-content>Create Your Store</ion-card-content>
-        </ion-card>
-      </ion-col> -->

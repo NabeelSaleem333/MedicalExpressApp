@@ -1,11 +1,10 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-item lines="none" color="primary">
+  <ion-toolbar color="primary">
       <ion-buttons slot="start">
         <ion-icon name="arrow-back" (click)="closeFunc()"></ion-icon>
+        <!-- <ion-back-button></ion-back-button> -->
       </ion-buttons>
       <ion-title>{{ storename }}</ion-title>
-    </ion-item>
   </ion-toolbar>
 </ion-header>
 
@@ -56,7 +55,7 @@
             >
               <ion-select-option value="Tablet">Tablet</ion-select-option>
               <ion-select-option value="Tube">Tube</ion-select-option>
-              <ion-select-option value="Capsule">Capsul</ion-select-option>
+              <ion-select-option value="Capsule">Capsule</ion-select-option>
               <ion-select-option value="Syrup">Syrup</ion-select-option>
               <ion-select-option value="Injection">Injection</ion-select-option>
               <ion-select-option value="Others">Others</ion-select-option>

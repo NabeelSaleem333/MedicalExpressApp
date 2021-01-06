@@ -83,8 +83,9 @@ export class CreatestoreComponent implements OnInit {
         'profiles'
       );
       obs.subscribe((data) => {
-        console.log(data);
+        // console.log(data);
         this.imageUrl = data;
+        console.log(data);
         // setTimeout(() => {
         //   const obsDel = this.firebaseServImg.deleteImage(data);
         //   console.log(obsDel);
@@ -100,6 +101,7 @@ export class CreatestoreComponent implements OnInit {
   }
   //
   SubmitForm() {
+    // console.log(this.imageUrl);
     // Run condition when editing store
     if (this.store) {
 
@@ -129,8 +131,8 @@ export class CreatestoreComponent implements OnInit {
       );
     } else { // Run when creating new store
       // this.createForm.value.image = 'src';
-      // this.createForm.value.image = this.imageUrl;
-      this.createForm.value.image = 'src/assets/images/user.png';
+      this.createForm.value.image = this.imageUrl;
+      // this.createForm.value.image = 'src/assets/images/user.png';
       this.createForm.value.date = Date.now();
       this.createForm.value.userId = this.userId;
       console.log(this.createForm.value.image);

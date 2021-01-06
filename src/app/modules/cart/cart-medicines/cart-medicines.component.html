@@ -1,46 +1,39 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <!-- <ion-menu-button></ion-menu-button> -->
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>Cart</ion-title>
-    <!-- <ion-buttons slot="end">
-      <ion-button>
-        <ion-icon name="cart"></ion-icon>
-        {{ storename }}
-      </ion-button>
-      <ion-button>
-        <ion-icon name="person"></ion-icon>
-      </ion-button>
-    </ion-buttons> -->
+     <ion-buttons slot="end">
+  <ion-select value="all" (ionChange)="onSelect($event)">
+    <ion-select-option value="all">All</ion-select-option>
+    <ion-select-option value="Tablet">Tablet</ion-select-option>
+    <ion-select-option value="Capsule">Capsule</ion-select-option>
+    <ion-select-option value="Syrup">Syrup</ion-select-option>
+    <ion-select-option value="injection">Injection</ion-select-option>
+    <ion-select-option value="Tube">Tube</ion-select-option>
+    <ion-select-option value="Others">Others</ion-select-option>
+  </ion-select>
+  </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
+<div *ngIf="!loading">
 <h5 style="text-align: center">
   Shopping from <span style="font-style: italic">"{{ storename }}"</span>
   <ion-icon name="cart"></ion-icon>{{ counter }}
 </h5>
-<ion-item>
+</div>
+<!-- <ion-item>
   <ion-searchbar
     color="medium"
     placeholder="Search by store name or address"
     (keyup)="onKeyUp($event)"
   ></ion-searchbar>
-</ion-item>
-<ion-list-header>
-  Category:
-  <ion-select value="all" (ionChange)="onSelect($event)">
-    <ion-select-option value="all">All</ion-select-option>
-    <ion-select-option value="tablet">Tablet</ion-select-option>
-    <ion-select-option value="capsul">Capsule</ion-select-option>
-    <ion-select-option value="syrup">Syrup</ion-select-option>
-    <ion-select-option value="injection">Injection</ion-select-option>
-    <ion-select-option value="tube">Tube</ion-select-option>
-    <ion-select-option value="others">Others</ion-select-option>
-  </ion-select>
-</ion-list-header>
+</ion-item> -->
+
 <ion-content>
+  <div *ngIf="!loading">
   <ion-grid>
     <ion-row>
       <ion-col size="12" size-md="6" size-lg="8" offset-md="2">
@@ -51,17 +44,18 @@
                 <!-- <h2>{{ cart.name }}</h2> -->
               </ion-item>
 
-              <ion-item>
-                <ion-label>
+              <ion-item color="light">
+                <ion-thumbnail slot="start">
                   <!-- <img
                     style="width: 100px; height: 100px"
                     src="assets/images/MartialKing.PNG"
                   /> -->
+                  <!-- style="width: 100px; height: 100px;" -->
                   <img
-                  style="width: 100px; height: 100px;border: 1px solid black; border-radius: 5px;"
+                  
                   [src]="cart.image"
                 />
-                </ion-label>
+                </ion-thumbnail>
                 <ion-label>
                   <!-- <p>{{ cart._id }}</p>  -->
                   <h2>{{ cart.medicinename }}</h2>
@@ -99,11 +93,24 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+</div>
+  <div *ngIf="loading">
+    <ion-list>
+      <ion-item *ngFor="let s of skeletonlist">
+        <ion-thumbnail slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-thumbnail>
+        <ion-label>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
 </ion-content>
 <!-- BUTTON -->
     <!-- <ion-col size="12" size-md="6" size-lg="6" > -->
       <ion-button *ngIf="counter !== 0" (click)="checkout(storeId, cart)">
         <ion-icon name="arrow-up"></ion-icon>
-        Check Out
+        Check Out 
       </ion-button>
     <!-- </ion-col> -->

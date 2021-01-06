@@ -1,7 +1,8 @@
-#image {
+img {
   width: auto;
   margin: 0em;
   height: 150px;
+  // width: 250px;
   text-align: center;
   background-color: black;
   color: white;
@@ -12,4 +13,20 @@
     padding: 1em;
     margin: 0em;
     text-align: center;
+}
+#First_Card{
+  width: 340px;
+  height: 345px;
+}
+#First_Image{
+  width: 340px;
+  height: 226px;
+}
+#Second_Card{
+  width: 237px;
+  height: 275px;
+}
+#Second_Image{
+  width: 237px;
+  height: 158px;
 }

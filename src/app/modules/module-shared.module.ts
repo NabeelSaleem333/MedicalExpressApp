@@ -17,6 +17,10 @@ import { OrderbillModule } from './cart/cart-medicines/orderbill/orderbill.modul
 import { OrderbillComponent } from './cart/cart-medicines/orderbill/orderbill.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { UserSettingsComponent } from './user/user-settings/user-settings.component';
+import { ContactUsComponent } from './contact-us/contact-us.component';
+import { AboutUsComponent } from './about-us/about-us.component';
+import { HistoryComponent } from './history/history.component';
+import { CharityComponent } from './charity/charity.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +31,11 @@ import { UserSettingsComponent } from './user/user-settings/user-settings.compon
     MedicineonstoreComponent,
     CartComponent,
     CartMedicinesComponent,
-    UserSettingsComponent
+    CharityComponent,
+    HistoryComponent,
+    UserSettingsComponent,
+    ContactUsComponent,
+    AboutUsComponent
   ],
   imports: [
     CommonModule,

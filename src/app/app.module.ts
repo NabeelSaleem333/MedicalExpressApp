@@ -21,6 +21,7 @@ import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
 import { UserSettingsComponent } from './modules/user/user-settings/user-settings.component';
+
 //
 
 @NgModule({
@@ -39,6 +40,7 @@ import { UserSettingsComponent } from './modules/user/user-settings/user-setting
     ModuleSharedModule,
     DashboardModule,
     AuthModule,
+    
     // CoreModule,
     // This related to all the Main Modules of the Project
   ],

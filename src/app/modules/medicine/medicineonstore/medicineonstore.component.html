@@ -1,73 +1,69 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <!-- <ion-menu-button></ion-menu-button> -->
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>On Stores</ion-title>
-    <ion-buttons slot="end">
+    <!-- <ion-buttons slot="end">
       <ion-button>
         <ion-icon name="ellipsis-vertical"></ion-icon>
       </ion-button>
-    </ion-buttons>
+    </ion-buttons> -->
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-grid>
     <ion-row>
-      <ion-col size="12" size-md="6" size-lg="8" offset-md="2">
-        <ion-card *ngIf="flag" color="primary">
-          <ion-card-header>
-            <ion-card-title
-              >{{ medicineServ.medicine.medicinename }} /
-              {{ medicineServ.medicine.formula }}</ion-card-title
-            >
-            <ion-card-subtitle>
-              <p>
-                {{ medicineServ.medicine.format }}/{{
+      <ion-col size="12" size-md="6" size-lg="6" offset-md="3">
+        <ion-card *ngIf="flag" color="primary" style="text-align: center;">
+              <h2>{{ medicineServ.medicine.medicinename }}</h2>
+              <!-- {{ medicineServ.medicine.formula }} -->
+                {{ medicineServ.medicine.format }}-{{
                   medicineServ.medicine.ingredients
                 }}mg
-              </p>
-            </ion-card-subtitle>
-          </ion-card-header>
         </ion-card>
+        <ion-searchbar
+        *ngIf="success"
+        color="medium"
+        placeholder="Search by store name or address"
+        (keyup)="onKeyUp($event)"
+      ></ion-searchbar>
       </ion-col>
     </ion-row>
   </ion-grid>
-  <ion-item *ngIf="success">
-    <ion-searchbar
-      color="medium"
-      placeholder="Search by store name or address"
-      (keyup)="onKeyUp($event)"
-    ></ion-searchbar>
-  </ion-item>
   <ion-grid>
     <ion-row *ngIf="success">
-      <!-- <ion-col>
+      <ion-col size='12' size-md='6' size-lg='6' offset-lg='3'>
         <ion-list *ngFor="let store of storeServ.storeArray">
-          <ion-item lines="none">
+          
+          
+          <ion-item lines="none" color="light">
+
             <ion-avatar>
               <img src="assets/images/MartialKing.PNG" />
             </ion-avatar>
             <ion-label>
-              <p>{{ store.name }}</p>
+              <h2>{{ store.name }}</h2>
               <p>{{ store.contact }}</p>
+              <p>Price Rs. {{store.price}}</p>
             </ion-label>
-            
             <ion-button slot="end" (click)="medicineOnStores(store._id)">
               <ion-icon name="chevron-forward"></ion-icon>
             </ion-button>
           </ion-item>
-          <ion-item>
-            <ion-label>
-              <p>{{ store.address }} {{ store.city }}</p>
+          <!-- <ion-item >
+            <ion-label slot="start">
+              {{ medicineServ.medicine.medicinename }}
             </ion-label>
-          </ion-item>
+            <ion-label slot="end">
+              Rs. {{store.price}}</ion-label>
+          </ion-item> -->
         </ion-list>
-      </ion-col> -->
+      </ion-col>
       <!-- CARD DISPLAY -->
-      <ion-col
+      <!-- <ion-col
         size="12"
         size-md="4"
         size-lg="3"
@@ -89,11 +85,13 @@
             alt="Store-Image"
           />
           <ion-card-header>
+            
             <ion-card-title>{{ store.name }}</ion-card-title>
             <ion-card-subtitle>{{ store.contact }}</ion-card-subtitle>
           </ion-card-header>
           <ion-card-content>
             <p>{{ store.address }} {{ store.city }}</p>
+            <p>Rs. {{ store.price }}</p>
             <ion-button
               color="tertiary"
               margin-top
@@ -103,7 +101,7 @@
             </ion-button>
           </ion-card-content>
         </ion-card>
-      </ion-col>
+      </ion-col> -->
     </ion-row>
     <div
       *ngIf="!success"

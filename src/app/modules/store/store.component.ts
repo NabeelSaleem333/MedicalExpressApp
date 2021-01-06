@@ -3,6 +3,7 @@ import { StoresService } from 'src/app/Services/store/stores.service';
 import { ToastController, AlertController,  } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { JwtService } from 'src/app/core/services/jwt.service';
+import { HistoryService } from '../history/history.service';
 
 @Component({
   selector: 'app-store',
@@ -13,7 +14,7 @@ export class StoreComponent implements OnInit {
   imageurl = 'assets/images/MartialKing.PNG';
   // FLAGS
   loading = false;
-  switch = true;
+  switch = true; 
   flag1 = false;
   internetflag = true;
   // searchflag = false;
@@ -24,6 +25,7 @@ export class StoreComponent implements OnInit {
   constructor(
     public storeServ: StoresService,
     public jwtServ: JwtService,
+    public historyServ: HistoryService,
     private toastController: ToastController,
     private router: Router,
     private alert: AlertController
@@ -56,10 +58,12 @@ All Stores Record
         } else {
           console.log(data.status);
           this.loading = false;
+          this.flag1 = true;
         }
       },
       err => {
         this.loading = false;
+        this.flag1 = true;
         this.internetflag = false;
         console.log('Invalid Url');
       }
@@ -70,19 +74,17 @@ All Stores Record
   */
  //
     // The method 'onKeyUp()' is used to Search Medicine from the Medicine List
-    onKeyUp(event: any) {
+    saveSearch(event: any) {
       console.log(event.target.value);
-      this.search = event.target.value;
-      if (event.target.value !== '') {
-        this.storeServ.storeArray = this.storeServ.storeArray.filter((res) => {
-          return (res.name + res.address + res.city)
-            .toLocaleLowerCase()
-            .includes(this.search.toLocaleLowerCase());
-            // .match(this.search.toLocaleLowerCase());
-        });
-      } else {
-        this.getStores();
+      var body = {
+        userId: this.jwtServ.getUserId(),
+        search: event.target.value
       }
+      this.historyServ.save(body).subscribe(
+        (data) => {
+          console.log(data);
+        }
+      );
     } // End of the 'onKeyUp()' method
   /*
  //

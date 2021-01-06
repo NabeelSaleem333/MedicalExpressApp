@@ -13,6 +13,7 @@ import { JwtService } from 'src/app/core/services/jwt.service';
 })
 export class CartComponent implements OnInit {
   // Flags
+  loading = false;
   // Variables
   userId: string;
   // Counters
@@ -22,6 +23,7 @@ export class CartComponent implements OnInit {
   // Objects n Arrays
   cart: OnStores[];
   search: any;
+  skeletonlist = [1, 2, 3 , 4, 5, 6, 7, 8, 9, 10 ];
   //
   constructor(
     private jwtServ: JwtService,
@@ -37,10 +39,15 @@ export class CartComponent implements OnInit {
   }
 
   loadcart() {
+    this.loading = true;
     console.log('loading cart');
     this.cartServ.loadcartonstores(this.userId).subscribe(
       (data) => {
         if (data) {
+          setTimeout(() => {
+            this.loading = false;
+          }, 2000);
+          console.log(data);
           console.log(data);
           this.storeCount = data.length;
           this.cart = data;
@@ -48,10 +55,12 @@ export class CartComponent implements OnInit {
             this.cartCounter += c.size;
           }
         } else {
+          this.loading = false;
           this.cartCounter = 0;
         }
       },
       (err) => {
+        this.loading = false;
         console.log(err);
       }
     );
@@ -153,6 +162,7 @@ export class OnStores {
   name: string;
   address: string;
   size: number;
+  image: string;
 }
 
 // export class CartMedicine {

@@ -10,7 +10,7 @@
   <ion-grid>
     <ion-row>
       <ion-col size="12" size-md="6" offset-md="3" size-lg="4" offset-lg="4">
-        <form [formGroup]="settingform" style="margin-top: 40px;border: 1px solid rgb(52, 52, 248); border-radius: 10px;">
+        <form [formGroup]="settingform" style="margin-top: 40px;">
           <ion-item>
             <ion-label position="floating">Username</ion-label>
             <ion-input formControlName="username"></ion-input>
@@ -25,16 +25,18 @@
             <ion-label position="floating">Old Password</ion-label>
             <ion-input type="password" formControlName="oldpassword"></ion-input>
           </ion-item>
-          <ion-item>
+          <ion-button *ngIf="!flag1" (click)="verifyOldPassword()">Verify</ion-button>
+          <ion-item *ngIf="flag1">
             <ion-label position="floating">New Password</ion-label>
             <ion-input type="password" formControlName="newpassword"></ion-input>
           </ion-item>
+          <ion-button *ngIf="flag1" (click)="changePassword()">Submit</ion-button>
           <ion-item lines="none">
-            <ion-button>Submit</ion-button>
+            <button slot="end" (click)="navigateToForget()">forget password!</button>
           </ion-item>
-          <ion-item lines="none">
-            <ion-button color="danger">Delete</ion-button>
-          </ion-item>
+          <!-- <ion-item lines="none">
+            <ion-button slot="end" color="danger">Delete</ion-button>
+          </ion-item> -->
         </form>
       </ion-col>
     </ion-row>

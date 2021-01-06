@@ -4,193 +4,140 @@
       <ion-menu-button></ion-menu-button>
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>My Store</ion-title>
-
-    <ion-buttons slot="end">
-      <ion-button>
-        <ion-icon name="ellipsis-vertical"></ion-icon>
+    <ion-title>
+    <span *ngIf="!flag">My Store</span>
+    <span *ngIf="flag" color="success" (click)="storeInfo(store._id)">{{ store.name }}</span>
+    </ion-title>
+    <ion-buttons slot="end" *ngIf="flag">
+      <ion-button (click)="loadStoreDetails()">
+        <ion-icon name="refresh-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end" *ngIf="flag">
+      <!-- <ion-button (click)="loadStoreDetails()">
+        <ion-icon name="refresh-outline"></ion-icon>
+      </ion-button> -->
+      <ion-button (click)="storeInfo(store._id)">
+        <ion-icon name="ellipsis-vertical" ></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <!-- The Body -->
 <ion-content>
+  <div *ngIf="!loading">
   <!-- Here the image slider of the specific images -->
-  <ion-slides [options]="slideOptsOne">
+  <div>
+    <img *ngIf="!flag" class="detail-header" src='assets/images/sevencolors.jpg'>
+    <img *ngIf="flag" class="detail-header" src='{{imageUrl}}'>
+  </div>
+  
+  <!-- <ion-slides [options]="slideOptsOne">
     <ion-slide *ngFor="let item of items">
-      <!-- <ion-card > -->
-      <!-- <ion-card-content> -->
       <ion-img [src]="item.image"></ion-img>
-      <!-- <h2> <b>{{item.title}} </b></h2>
-          <h4>{{item.summary}}</h4>-->
-      <!-- </ion-card-content>  -->
-      <!-- </ion-card> -->
     </ion-slide>
-  </ion-slides>
+  </ion-slides> -->
   <!-- Image slider ends here -->
 
   <ion-grid>
     <ion-row>
-      <ion-col size="12" size-md="6" size-lg="4" offset-lg="2">
-        <ion-card color="primary">
-          <ion-card-header>
-            <ion-card-title>
-              <ion-buttons>
-                <span *ngIf="flag" color="success">{{ store.name }}</span>
-                <span *ngIf="!flag">Store</span>
-                <ion-icon *ngIf="!flag" name="create"></ion-icon>
-                <ion-button *ngIf="flag" (click)="openInfoModal(store)">
+      <ion-col size="12" size-md="6" size-lg="4" offset-lg="4" *ngIf="!flag">
+        <ion-card color="primary" (click)="openCreateModal(decodeUserId)" role="button">
+          <ion-card-header >
+            <ion-card-title style="text-align: center;">
+              <!-- <span *ngIf="flag" color="success" (click)="storeInfo(store._id)">{{ store.name }}</span> -->
+              <!-- <span *ngIf="!flag">Store</span> -->
+              <!-- <ion-buttons> -->
+                <!-- <ion-icon *ngIf="!flag" name="create"></ion-icon> -->
+                <!-- <ion-button *ngIf="flag" (click)="openInfoModal(store)">
                   <ion-icon name="information-circle"></ion-icon>
-                </ion-button>
-              </ion-buttons>
+                </ion-button> -->
+                <span
+                  
+                  >Create</span>
+                <!-- <ion-button *ngIf="flag" (click)="openEditModal(store)"
+                  ><ion-icon name="create"></ion-icon
+                ></ion-button>
+                <ion-button *ngIf="flag" (click)="deleteAlert(store.name)"
+                  ><ion-icon name="trash"></ion-icon
+                ></ion-button> -->
+              <!-- </ion-buttons> -->
             </ion-card-title>
           </ion-card-header>
-          <ion-card-content *ngIf="!flag"
+          <!-- <ion-card-content *ngIf="!flag"
             >Create your medical store now</ion-card-content
           >
           <ion-card-content *ngIf="flag"
             >Manage your medical store</ion-card-content
-          >
-          <ion-card-content>
-            <ion-button
-              *ngIf="!flag"
-              color="dark"
-              (click)="openCreateModal(decodeUserId)"
-              >Go <ion-icon name="chevron-forward"></ion-icon
-            ></ion-button>
-            <ion-buttons *ngIf="flag">
-              <ion-button color="dark" (click)="openEditModal(store)"
-                ><ion-icon name="create"></ion-icon
-              ></ion-button>
-              <ion-button color="dark" (click)="deleteAlert(store.name)"
-                ><ion-icon name="trash"></ion-icon
-              ></ion-button>
-            </ion-buttons>
-          </ion-card-content>
+          > -->
         </ion-card>
       </ion-col>
-      <ion-col size="12" size-md="6" size-lg="4" *ngIf="flag">
-        <ion-card color="primary">
+      <ion-col size="12" size-md="6" size-lg="4" offset-lg="4" *ngIf="flag">
+        <ion-card color="primary" (click)="medicineInventory(store.name, store._id)" role="button">
           <ion-card-header>
-            <ion-card-title>
-              <ion-buttons>
-                <span>Manage Inventory</span>
+            <ion-card-title style="text-align: center;">
+              <span>Manage Inventory</span>
+              <!-- <ion-buttons>
                 <ion-button
                   (click)="openInfoMedicineModal(store._id, store.name)"
-                >
-                  <ion-icon name="information-circle"></ion-icon>
+                ><ion-icon name="information-circle"></ion-icon>
                 </ion-button>
-              </ion-buttons>
+                <ion-button (click)="medicineInventory(store.name, store._id)"
+                  ><ion-icon name="add"></ion-icon
+                ></ion-button>
+              </ion-buttons> -->
             </ion-card-title>
           </ion-card-header>
-          <ion-card-content>Add medicines into your Store</ion-card-content>
-          <ion-card-content>
-            <ion-button
-              color="dark"
-              (click)="medicineInventory(store.name, store._id)"
-              >Add <ion-icon name="add"></ion-icon
-            ></ion-button>
-          </ion-card-content>
+          <!-- <ion-card-content>Add medicines into your Store</ion-card-content> -->
+          <!-- <ion-card-content> </ion-card-content> -->
         </ion-card>
       </ion-col>
     </ion-row>
     <!--  -->
     <ion-row>
       <!-- Order -->
-      <ion-col size="12" size-md="6" size-lg="4" offset-lg="2" *ngIf="flag">
-        <ion-card color="secondary">
+      <ion-col size="12" size-md="6" size-lg="4" offset-lg="4" *ngIf="flag">
+        <ion-card color="secondary" (click)="orders(store._id)">
           <ion-card-header>
-            <ion-card-title>
-              <ion-buttons>
-                <span>Orders</span>
-                <ion-button
-                  (click)="openInfoMedicineModal(store._id, store.name)"
-                >
-                  <ion-icon name="information-circle"></ion-icon>
-                </ion-button>
-              </ion-buttons>
+            <ion-card-title style="text-align: center;"> 
+              <span>Orders</span>
             </ion-card-title>
           </ion-card-header>
-          <ion-card-content>Orders In Queue</ion-card-content>
-          <ion-card-content>
-            <ion-button color="dark" (click)="orders(store._id)"
-              >Orders<ion-icon name="navigate"></ion-icon
-            ></ion-button>
-          </ion-card-content>
+          <!-- <ion-card-content>Orders In Queue</ion-card-content> -->
         </ion-card>
       </ion-col>
 
-      <!-- Charity Card -->
-      <ion-col size="12" size-md="6" size-lg="4" offset-md="2" *ngIf="!flag">
-        <ion-card color="primary">
-          <ion-card-header>
-            <ion-card-title>
-              <ion-buttons>
-                <span *ngIf="flag" color="success">Charity</span>
-                <span *ngIf="!flag">Charity</span>
-                <ion-icon *ngIf="!flag" name="create"></ion-icon>
-                <ion-button *ngIf="flag" (click)="openInfoModal(store)">
-                  <ion-icon name="information-circle"></ion-icon>
-                </ion-button>
-              </ion-buttons>
-            </ion-card-title>
-          </ion-card-header>
-          <ion-card-content *ngIf="!flag">Make Charity Now</ion-card-content>
-          <ion-card-content *ngIf="flag">Make Charity Now</ion-card-content>
-          <ion-card-content>
-            <ion-button
-              *ngIf="!flag"
-              color="dark"
-              (click)="openCreateModal(decodeUserId)"
-              >Add <ion-icon name="chevron-forward"></ion-icon
-            ></ion-button>
-            <!-- <ion-buttons *ngIf="flag"> -->
-            <ion-button color="dark" (click)="openEditModal(store)"
-              >Add<ion-icon name="add"></ion-icon
-            ></ion-button>
-            <ion-button color="dark" (click)="deleteAlert(store.name)"
-              >View<ion-icon name="caret-forward"></ion-icon
-            ></ion-button>
-            <!-- </ion-buttons> -->
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
+
 
       <!-- Charity Card -->
-      <ion-col size="12" size-md="6" size-lg="4" *ngIf="flag">
-        <ion-card color="primary">
+      <!-- <ion-col size="12" size-md="6" size-lg="4" *ngIf="flag">
+        <ion-card color="primary" style="text-align: center;">
           <ion-card-header>
             <ion-card-title>
-              <ion-buttons>
-                <span *ngIf="flag" color="success">Charity</span>
-                <span *ngIf="!flag">Charity</span>
-                <ion-icon *ngIf="!flag" name="create"></ion-icon>
-                <ion-button *ngIf="flag" (click)="openInfoModal(store)">
-                  <ion-icon name="information-circle"></ion-icon>
-                </ion-button>
-              </ion-buttons>
+              <span color="success">Charity</span>
             </ion-card-title>
           </ion-card-header>
-          <ion-card-content *ngIf="!flag">Make Charity Now</ion-card-content>
-          <ion-card-content *ngIf="flag">Make Charity Now</ion-card-content>
-          <ion-card-content>
-            <ion-button
-              *ngIf="!flag"
-              color="dark"
-              (click)="openCreateModal(decodeUserId)"
-              >Add <ion-icon name="chevron-forward"></ion-icon
-            ></ion-button>
-            <!-- <ion-buttons *ngIf="flag"> -->
-            <ion-button color="dark" (click)="openEditModal(store)"
-              >Add<ion-icon name="add"></ion-icon
-            ></ion-button>
-            <ion-button color="dark" (click)="deleteAlert(store.name)"
-              >View<ion-icon name="caret-forward"></ion-icon
-            ></ion-button>
-            <!-- </ion-buttons> -->
-          </ion-card-content>
         </ion-card>
-      </ion-col>
+      </ion-col> -->
+
     </ion-row>
   </ion-grid>
+</div>
+<div *ngIf="loading">
+  <ion-list *ngFor="let s of skeletonlist">
+
+    <ion-card animated>
+      <img />
+      <ion-card-header>
+        <ion-card-title></ion-card-title>
+        <ion-card-subtitle></ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+      </ion-card-content>
+    </ion-card>
+    <ion-label>
+      <ion-skeleton-text animated></ion-skeleton-text>
+    </ion-label>
+  </ion-list>
+</div>
 </ion-content>

@@ -1,73 +1,105 @@
-<ion-header>
-  <ion-toolbar color="primary">
+<ion-header [translucent]="true">
+  <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
-      <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Home</ion-title>
+    <ion-title>
+         Medical Express 
+    </ion-title>
     <ion-buttons slot="end">
-      <ion-button>
-        <ion-icon name="ellipsis-vertical"></ion-icon>
+      <ion-button routerLink="/cart">
+        <ion-icon name="cart-sharp"></ion-icon>
+        <label>cart</label>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
+  <!-- <ion-toolbar>
+
+    <ion-button slot="end">
+      Medicines
+    </ion-button>
+  </ion-toolbar> -->
 </ion-header>
 
-<!--  -->
-<ion-content>
-  <ion-card style="text-align: center; padding: 3em" color="dark">
-    <ion-card-title style="font-size: 28px; font: bolder">
-      Medical Express
-    </ion-card-title>
-  </ion-card>
+<ion-content [fullscreen]="true">
+  <div *ngIf="!loading">
+  <ion-item >
+    <label>
+      <h1>Popular Stores</h1>
+    </label>
+    <ion-buttons slot="end">
+      <ion-button (click)="searchStores()">
+        <ion-icon name="search"></ion-icon>
+        Stores
+      </ion-button>
+  </ion-buttons>
+  </ion-item>
 
-  <ion-grid>
-    <ion-row>
-      <ion-col size="12" size-md="6" size-lg="8" offset-md="2">
-        <ion-card color="light">
+  <ion-slides [options]="sliderConfig" >
+
+    <ion-slide *ngFor="let store of storeServ.storeArray" >
+      <ion-card id="First_Card" (click)="visitStore(store._id)">
+        <img id="First_Image" src="{{store.image}}" />
+        <ion-card-header>
+
+          <ion-card-title>{{store.name}}</ion-card-title>
+          <ion-card-subtitle>{{store.contact}}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          {{store.address}}, {{store.city}}
+        </ion-card-content>
+      </ion-card>
+    </ion-slide> 
+
+  </ion-slides>
+
+  <br>
+
+  <ion-item>
+    <label>
+      <h1>Popular Medicines</h1>
+    </label>
+    <ion-buttons slot="end">
+      <ion-button (click)="searchMedicines()">
+        <ion-icon name="search"></ion-icon>
+        Medicines
+      </ion-button>
+  </ion-buttons>
+  </ion-item>
+
+  
+    <ion-slides [options]="SliderConfig">
+
+      <ion-slide *ngFor="let medicine of medicineServ.MedicineArray">
+        <ion-card id="Second_Card" (click)="medicineOnStores(medicine._id)">
+          <img id="Second_Image" src="{{medicine.image}}"/>
           <ion-card-header>
-            <ion-card-title
-              >Store <ion-icon name="search"></ion-icon
-            ></ion-card-title>
+           
+            <ion-card-title>{{medicine.medicinename}}</ion-card-title>
+            <ion-card-subtitle>{{medicine.formula}}</ion-card-subtitle>
           </ion-card-header>
-          <ion-card-content>Find Store</ion-card-content>
           <ion-card-content>
-            <ion-button color="dark" (click)="goToStores()"
-              >Go <ion-icon name="chevron-forward"></ion-icon
-            ></ion-button>
+            {{medicine.ingredients}}mg
           </ion-card-content>
         </ion-card>
-      </ion-col>
-      <ion-col size="12" size-md="6" size-lg="8">
-        <ion-card color="light">
+      </ion-slide>
+    </ion-slides>
+  </div>
+  
+    <div *ngIf="loading">
+      <ion-list *ngFor="let s of skeletonlist">
+        <ion-label>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-label>
+        <ion-card animated>
+          <img />
           <ion-card-header>
-            <ion-card-title
-              >Medicine <ion-icon name="search"></ion-icon
-            ></ion-card-title>
+            <ion-card-title></ion-card-title>
+            <ion-card-subtitle></ion-card-subtitle>
           </ion-card-header>
-          <ion-card-content>Find Medicine</ion-card-content>
           <ion-card-content>
-            <ion-button color="dark" (click)="goToMedicines()"
-              >Go <ion-icon name="chevron-forward"></ion-icon
-            ></ion-button>
           </ion-card-content>
         </ion-card>
-      </ion-col>
-      <!-- <ion-col>
-        <ion-card color="light">
-          <ion-card-header>
-            <ion-card-title
-              >Create Store<ion-icon name="create"></ion-icon
-            ></ion-card-title>
-          </ion-card-header>
-          <ion-card-content>Create Store</ion-card-content>
-          <ion-card-content>
-            <ion-button color="dark" (click)="openAddModal()"
-              >Go <ion-icon name="chevron-forward"></ion-icon
-            ></ion-button>
-          </ion-card-content>
-        </ion-card>
-      </ion-col> -->
-    </ion-row>
-  </ion-grid>
+      </ion-list>
+    </div>
 </ion-content>

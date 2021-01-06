@@ -12,6 +12,8 @@ import { CartB } from 'src/app/models/schemas';
   styleUrls: ['./cart-medicines.component.scss'],
 })
 export class CartMedicinesComponent implements OnInit {
+  // Flag
+  loading = false;
   // Variables
   storename: '';
   userId: string;
@@ -22,6 +24,7 @@ export class CartMedicinesComponent implements OnInit {
   // ARRAYS
   cart: CartB[];
   search: any;
+  skeletonlist = [1, 2, 3 , 4, 5, 6, 7, 8, 9, 10 ];
   //
 
   constructor(
@@ -47,14 +50,24 @@ A function to get the all the medicines in a of
 one relevant store
 */
   getCartMedicinesOnStore(storeId: string) {
+    this.loading = true;
     this.cartServ.loadCartForOneStore(storeId).subscribe((data) => {
+      
       console.log(data);
       if (data) {
+        setTimeout(() => {
+          this.loading = false;
+        }, 1000);
         this.cart = data;
         this.counter = data.length;
       } else {
+        this.loading = false;
         this.counter = 0;
       }
+    },
+    (err) => {
+      this.loading = false;
+      console.log('Invalid Url');
     });
   }
 

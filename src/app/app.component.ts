@@ -6,6 +6,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { JwtService } from './core/services/jwt.service';
 import { FirebaseImageHandler } from './Services/firebase/firebase-image-handler.service';
 import { UserSettingsComponent } from './modules/user/user-settings/user-settings.component';
+import { AuthService } from './core/services/auth.service';
+import { MessageService } from './Services/message/message.service';
 
 @Component({
   selector: 'app-root',
@@ -34,6 +36,11 @@ export class AppComponent implements OnInit {
       title: 'Medicine',
       url: 'medicines',
       icon: 'search',
+    },
+    {
+      title: 'Charity',
+      url: '/charity',
+      icon: 'gift',
     },
     {
       title: 'Login',
@@ -74,25 +81,20 @@ export class AppComponent implements OnInit {
       icon: 'cart',
     },
     {
+      title: 'Charity',
+      url: '/charity',
+      icon: 'gift',
+    },
+    {
       title: 'My Orders',
       url: 'dashboard/mystore/orders',
       icon: 'checkmark',
     },
     {
       title: 'History',
-      url: '/folder/history',
-      icon: 'search',
+      url: '/history',
+      icon: 'time',
     },
-    {
-      title: 'Reports',
-      url: '/folder/reports',
-      icon: 'layers',
-    },
-    // {
-    //   title: 'Payments',
-    //   url: '/folder/Payments',
-    //   icon: 'trash',
-    // },
     {
       title: 'Settings',
       url: '/user/settings',
@@ -100,12 +102,12 @@ export class AppComponent implements OnInit {
     },
     {
       title: 'Coutact Us',
-      url: '/folder/Contact Us',
+      url: '/Contact Us',
       icon: 'send',
     },
     {
       title: 'About Us',
-      url: '/folder/About Us',
+      url: '/About Us',
       icon: 'information-circle',
     },
     {
@@ -115,13 +117,15 @@ export class AppComponent implements OnInit {
     },
   ];
 
-  public labels = ['Coutact Us', 'About Us' ];
+  // public labels = ['Coutact Us', 'About Us' ];
 
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     public jwtServ: JwtService,
+    private authServ: AuthService,
+    private msgServ: MessageService,
     private firebaseServImg: FirebaseImageHandler,
     private modalController: ModalController
   ) {
@@ -142,7 +146,8 @@ export class AppComponent implements OnInit {
         (page) => page.title.toLowerCase() === path.toLowerCase()
       );
     }
-    console.log(this.jwtServ.getToken());
+    this.imageUrl = this.jwtServ.getUserImage();
+    // console.log(this.jwtServ.getToken());
   }
   //
   onPickImage() {
@@ -161,16 +166,30 @@ export class AppComponent implements OnInit {
       obs.subscribe((data) => {
         console.log(data);
         this.imageUrl = data;
-        setTimeout(() => {
-          const obsDel = this.firebaseServImg.deleteImage(data);
-          console.log(obsDel);
-          // tslint:disable-next-line: no-shadowed-variable
-          // obsDel.subscribe((data: any) => {
-          // console.log(data);
-          this.imageUrl = null;
+        const body = {
+          email: this.jwtServ.getUserEmail(),
+          image: this.imageUrl
+        };
+        // tslint:disable-next-line: variable-name
+        this.authServ.changeImage(body).subscribe( data => {
+          console.log(data);
+          if (data.success) {
+            this.jwtServ.setUserImage(this.imageUrl);
+            this.msgServ.message(data.status);
+          } else {
+            this.msgServ.message(data.status);
+          }
+        });
+        // setTimeout(() => {
+        //   const obsDel = this.firebaseServImg.deleteImage(data);
+        //   console.log(obsDel);
+        //   // tslint:disable-next-line: no-shadowed-variable
+        //   // obsDel.subscribe((data: any) => {
+        //   // console.log(data);
+        //   this.imageUrl = null;
 
-          // });
-        }, 20000);
+        //   // });
+        // }, 20000);
       });
     }
   }

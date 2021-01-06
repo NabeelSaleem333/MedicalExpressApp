@@ -10,12 +10,15 @@
         <ion-icon name="cart"></ion-icon>
         {{ cartCounter }}
       </ion-button>
-      <ion-button>
+      <!-- <ion-button>
         <ion-icon name="person"></ion-icon>
-      </ion-button>
+      </ion-button> -->
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
+<div *ngIf="!loading">
+
 <h4 style="text-align: center; font: bold" *ngIf="cartCounter !== 0">
   Shopping from: {{ storeCount }} Store(s)
 </h4>
@@ -26,7 +29,9 @@
     (keyup)="onKeyUp($event)"
   ></ion-searchbar>
 </ion-item>
+</div>
 <ion-content>
+  <div *ngIf="!loading">
   <ion-grid>
     <ion-row>
       <ion-col  size="12" size-md="6" size-lg="8" offset-md="2">
@@ -36,21 +41,25 @@
         <h2>{{ cart.name }}</h2>
       </ion-item> -->
 
-            <ion-item lines="none">
-              <ion-label>
-                <img
+            <ion-item lines="none" >
+              <ion-label (click)="cartMedicines(cart.storeId, cart.name)">
+                <!-- <img
                   style="width: 100px; height: 100px"
                   src="assets/images/MartialKing.PNG"
+                /> -->
+               <img
+                  style="width: 100px; height: 100px"
+                  src="{{cart.image}}"
                 />
               </ion-label>
 
-              <ion-label>
+              <ion-label (click)="cartMedicines(cart.storeId, cart.name)">
                 <!-- <p>{{ cart._id }}</p>  -->
                 <ion-buttons>
                   {{ cart.name }}
-                  <ion-button (click)="visitStore(cart.storeId)">
+                  <!-- <ion-button (click)="visitStore(cart.storeId)">
                     <ion-icon name="information-circle"></ion-icon>
-                  </ion-button>
+                  </ion-button> -->
                 </ion-buttons>
                 <p>
                   Medicines: <ion-icon name="cart"></ion-icon>{{ cart.size }}
@@ -64,14 +73,14 @@
                 <ion-button (click)="removeAlert(cart.storeId, cart.name)">
                   <ion-icon name="trash"></ion-icon>
                 </ion-button>
-                <ion-button (click)="cartMedicines(cart.storeId, cart.name)">
+                <!-- <ion-button (click)="cartMedicines(cart.storeId, cart.name)">
                   <ion-icon name="chevron-forward"></ion-icon>
-                </ion-button>
+                </ion-button> -->
               </ion-buttons>
             </ion-item>
-            <ion-item>
+            <!-- <ion-item>
               <p style="text-align: center">{{ cart.address }}</p>
-            </ion-item>
+            </ion-item> -->
           </ion-list>
         </div>
 
@@ -85,4 +94,19 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+</div>
+  <div *ngIf="loading">
+    <ion-list>
+      <ion-item *ngFor="let s of skeletonlist">
+        <ion-thumbnail slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-thumbnail>
+        <ion-label>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
 </ion-content>
+
+

@@ -12,30 +12,29 @@
     <ion-row>
       <ion-col size="12" size-md="6" size-lg="8" offset-md="2">
         <ion-list >
-          <ion-radio-group value ="new" (ionChange) = "saveSettings($event)" [(ngModel)] ="ordertype">
+          <ion-radio-group value ="New" (ionChange) = "saveSettings($event)" [(ngModel)] ="ordertype">
         
             <ion-item>
-
               <ion-list slot="start">
               <ion-label color="primary">New({{buyer_newCount}})</ion-label>
-              <ion-radio slot="start" value="new"></ion-radio>
+              <ion-radio slot="start" value="New"></ion-radio>
             </ion-list>
           
 
-            <ion-list slot="end" style="padding: 10px;">
+            <!-- <ion-list slot="end" style="padding: 10px;">
               <ion-label color="danger">Pending({{buyer_newCount}})</ion-label>
               <ion-radio  value="pending"></ion-radio>
-            </ion-list>
+            </ion-list> -->
 
 
-            <ion-list slot="end" style="padding: 10px;">
+            <ion-list  style="padding: 10px;">
               <ion-label color="medium">Cancel({{buyer_cancelCount}})</ion-label>
-              <ion-radio  value="cancel"></ion-radio>
+              <ion-radio  value="Cancel"></ion-radio>
             </ion-list>
         
-            <ion-list slot="end" style="padding: 10px;">
-              <ion-label color="success">Completed({{buyer_completeCount}})</ion-label>
-              <ion-radio  value="completed"></ion-radio>
+            <ion-list  style="padding: 10px;">
+              <ion-label color="success">Delivered({{buyer_completeCount}})</ion-label>
+              <ion-radio  value="Received"></ion-radio>
             </ion-list>
             </ion-item>
           </ion-radio-group>
@@ -46,46 +45,31 @@
         [(ngModel)]="search">
         </ion-searchbar>
 
-        <h2 style="text-align: center">Buyer Orders</h2>
+        <h2 style="text-align: center">Store Orders</h2>
         <ion-list  *ngFor="let item of orders | filter: search" >
+          <!--  -->
+          <ion-card class="info-card ion-margin ion-padding-top ion-padding-bottom">
+            <ion-item lines="none" >
+              <ion-label>
+                <h3><strong>Order ID: {{item._id}}</strong></h3>
+                <h3><strong>Store Name: {{item.username}}</strong></h3>
+                <p>{{item.createdAt | date}}</p>
+                <h3>Payment type: {{item.paymentmethod}}</h3>
+                <ion-text>Medicines: {{item.medicines.length}}</ion-text>
+                <br>
+                <p *ngIf="item.orderstatus === 'New'">
+                  <ion-badge  color="danger" slot="end" style="height:20px; width:85px" (click)="cancelOrder(item._id, 'Cancel')">Cancel</ion-badge>
+                </p>
+                <p *ngIf="item.orderstatus === 'New'">
+                  <ion-badge color="success" slot="end" style="height:20px; width:85px" (click)="receivedOrder(item._id, 'Received')">Delivered</ion-badge>
+                </p>
+              </ion-label>
+              <ion-badge color="primary" slot="end" style="height:20px; width:85px" color='primary' *ngIf="item.orderstatus === 'New'"  (click)="orderdetail(item._id)">{{item.orderstatus}}</ion-badge>
+              <ion-badge color="primary" slot="end" style="height:20px; width:85px" color='medium' *ngIf="item.orderstatus === 'Cancel'" (click)="orderdetail(item._id)">{{item.orderstatus}}</ion-badge>
+              <ion-badge color="primary" slot="end" style="height:20px; width:85px" color='success' *ngIf="item.orderstatus === 'Received'" (click)="orderdetail(item._id)">{{item.orderstatus}}</ion-badge>
+            </ion-item>
+          </ion-card>
 
-          <ion-item color="primary">
-            <ion-label  slot="start" > Dwatson </ion-label>
-            <ion-label slot="end">{{item.createdAt | date}}</ion-label>
-          </ion-item>
-          <ion-item>
-          <ion-label slot="start">Medicines({{item.medicines.length}})</ion-label>
-          <ion-label color="primary">Status ({{item.orderstatus}})</ion-label>
-          <!-- <ion-button slot="end" (click)="navigateToOrderType('buyer', 'new')"> -->
-            
-            <!-- <ion-icon name="chevron-forward"></ion-icon> -->
-          <!-- </ion-button> -->
-        </ion-item>
-        <div style="border: 1px solid blue;">
-        <ion-item color="light">
-          <ion-label >Name</ion-label>
-          <ion-label>Format</ion-label>
-          <!-- <ion-label>Ingredients</ion-label> -->
-          <ion-label>Quantity</ion-label>
-          <ion-label>Price</ion-label>
-          <!-- <ion-label>Total</ion-label> -->
-        </ion-item>
-        <ion-list *ngFor="let m of item.medicines | filter: search">
-          <ion-item>
-          <ion-label style="color: blue;">{{m.medicinename}}</ion-label>
-          <ion-label>{{m.format}}</ion-label>
-          <!-- <ion-label>{{m.ingredients}}</ion-label> -->
-          <ion-label>{{m.quantity}}</ion-label>
-          <ion-label>Rs.{{m.price}}</ion-label>
-          <!-- <ion-label>Rs.{{m.price * m.quantity}}</ion-label> -->
-          <!-- <ion-label>Rs.{{m.price * m.quantity}}</ion-label> -->
-        </ion-item>
-        </ion-list>
-        <ion-item>
-        <ion-label slot="start">Paid Amount:</ion-label>
-        <ion-label color="primary">Rs.{{item.amountpaid}}</ion-label>
-      </ion-item>
-      </div>
       </ion-list>
       </ion-col>
     </ion-row>

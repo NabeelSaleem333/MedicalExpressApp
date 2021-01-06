@@ -41,13 +41,13 @@ export class AuthComponent implements OnInit {
     this.signupform = this.formbuilder.group({
       username: [
         '',
-        [Validators.required, Validators.pattern('^([a-zA-Z_ ]{5,})*$')],
+        [Validators.required, Validators.pattern('^([a-zA-Z_ ]{3,})*$')],
       ],
       email: [
         '',
         [
           Validators.required,
-          Validators.pattern('([a-zA-Z0-9.]{4,})@gmail[.]com'),
+          Validators.pattern('([a-zA-Z0-9.]{3,})@gmail[.]com'),
         ],
       ],
       password: [
@@ -91,7 +91,7 @@ export class AuthComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.pattern('([a-zA-Z0-9.]{4,})@gmail[.]com'),
+          Validators.pattern('([a-zA-Z0-9.]{3,})@gmail[.]com'),
           Validators.email
         ],
       ],
@@ -120,7 +120,7 @@ export class AuthComponent implements OnInit {
         console.log(data.status);
         this.msgServ.message(data.status);
         // this.router.navigate(['home']);
-        this.router.navigate(['dashboard', 'mystore']);
+        this.router.navigate(['home']);
         } else {
           console.log(data.status);
           this.msgServ.message(data.status);
@@ -134,15 +134,8 @@ export class AuthComponent implements OnInit {
       dismissed: true,
     });
   }
-  //
-  navigateToSignUp() {
-    // this.router.navigate(['signup']);
+  /* Forget Password Page */
+  navigateToForget() {
+    this.router.navigate(['forgetpassword']);
   }
-
-  // private errorHandler(error, message) {
-  //   console.error(error);
-  //   this.snackbar.open(message, 'Error', {
-  //     duration: 2000
-  //   });
-  // }
 }

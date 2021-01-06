@@ -28,7 +28,7 @@
           <h4>Grand Total</h4> -->
         </ion-label>
         <ion-label slot="end">
-          <h4>{{item.price * item.quantity}}</h4>
+          <h4>Rs. {{item.price * item.quantity}}</h4>
           <!-- <h4>Rs.0</h4>
           <h4>Rs.0</h4>
           <h4>Rs.0</h4> -->
@@ -38,16 +38,16 @@
     <ion-list>
       <ion-item>
         <ion-label slot="start">
-          <h4>Sub Total</h4>
-          <h4>Delivery Charges</h4>
-          <h4>Discount</h4>
-          <h4>Grand Total</h4>
+          <!-- <h4>Sub Total</h4> -->
+          <!-- <h4>Delivery Charges</h4> -->
+          <!-- <h4>Discount</h4> -->
+          <h4>Total</h4>
         </ion-label>
         <ion-label slot="end">
-          <h4>Rs.{{subtotal}}</h4>
-          <h4>Rs.{{charges}}</h4>
-          <h4>Rs.{{discount}}</h4>
-          <h4>Rs.{{total}}</h4>
+          <!-- <h4>Rs.{{subtotal}}</h4> -->
+          <!-- <h4>Rs.{{charges}}</h4> -->
+          <!-- <h4>Rs.{{discount}}</h4> -->
+          <h4>Rs. {{total}}</h4>
         </ion-label>
       </ion-item>
     </ion-list>
@@ -60,7 +60,7 @@
       <ion-label>Payment Method</ion-label>
       <br>
       <ion-button>By Cash</ion-button>
-      <ion-button>Easypaisa</ion-button>
+      <!-- <ion-button>Easypaisa</ion-button> -->
     </div>
   </div>
   <div *ngIf="!loadflag">
@@ -68,5 +68,5 @@
   </div>
 </ion-content>
 <ion-button (click)="checkOut()">
-  Pay Now
+  Done
 </ion-button>

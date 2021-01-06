@@ -8,7 +8,7 @@ import {
 import { AddmedicineComponent } from './addmedicine/addmedicine.component';
 import { MedicineinfoComponent } from './medicineinfo/medicineinfo.component';
 import { MedicineService } from 'src/app/Services/medicine/medicine.service';
-import { Store, StoreMedicine } from 'src/app/models/schemas';
+import { Medicine, Store, StoreMedicine } from 'src/app/models/schemas';
 
 @Component({
   selector: 'app-inventory',
@@ -20,6 +20,7 @@ export class InventoryComponent implements OnInit {
   success: false;
   status: '';
   // Flags
+  loading = false;
   flag = false;
   switch = false;
   searchflag = false;
@@ -29,6 +30,9 @@ export class InventoryComponent implements OnInit {
   onselect: any;
   search: any;
   // Objects
+  // Array
+  tempArray: StoreMedicine[];
+  skeletonlist = [1, 2, 3 , 4, 5, 6, 7, 8, 9, 10 ];
   // @Input()
   // userId: string;
 
@@ -52,18 +56,28 @@ export class InventoryComponent implements OnInit {
   }
   // ##########################################################################
   getAllStoreMedicnes() {
+    this.loading = true;
     this.medicineServ.getMedicinesByStoreId(this.storeId).subscribe((data) => {
       this.success = data.success;
       this.status = data.status;
       if (this.success) {
+        setTimeout(() => {
+          this.loading = false;
+        }, 2000);
         console.log(this.storename, 'Medicines:', data);
         this.medicineServ.storeMedicineArray = data.array;
+        this.tempMedicineArray();
         // show toast message to the user
         this.present(this.status);
       } else {
+        this.loading = false;
         console.log(this.storename, 'Medicines:', data);
       }
-    });
+    }, (err) => {
+      this.loading = false;
+      console.log('Invalid Url');
+    }
+    );
   }
   // ##########################################################################
   // #####################################################################################
@@ -122,23 +136,28 @@ export class InventoryComponent implements OnInit {
     await modal.present();
   }
 
+
+  tempMedicineArray() {
+    console.log('temp array');
+    this.tempArray = this.medicineServ.storeMedicineArray;
+    console.log(this.tempArray);
+  }
   /*
   This function is used to filter data
   according to Medicine Format
   */
-  onSelect(event: any) {
-    // this.onselect = event.target.value;
-    // console.log(this.onselect);
-    // // this.search = event.target.value;
-    // if (this.onselect !== 'all') {
-    //   this.medicineServ.MedicineArray = this.medicineServ.MedicineArray.filter(
-    //     (res) => {
-    //       return res.format.match(this.onselect);
-    //     });
-    // } else {
-    //   this.getAllStoreMedicnes();
-    // }
+ onSelect(event: any) {
+  this.onselect = event.target.value;
+  console.log(this.onselect);
+  if (this.onselect !== 'all') {
+    this.tempArray = this.medicineServ.storeMedicineArray.filter(
+      (res) => {
+        return res.format.match(this.onselect);
+      });
+  } else {
+    this.tempMedicineArray();
   }
+}
   // #####################################################################################
   /*
  Alerts

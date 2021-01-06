@@ -14,9 +14,17 @@ import { OrdersComponent } from './modules/dashboard/mystore/orders/orders.compo
 import { OrdertypeComponent } from './modules/dashboard/mystore/orders/ordertype/ordertype.component';
 import { CartMedicinesComponent } from './modules/cart/cart-medicines/cart-medicines.component';
 import { UserSettingsComponent } from './modules/user/user-settings/user-settings.component';
+import { ContactUsComponent } from './modules/contact-us/contact-us.component';
+import { AboutUsComponent } from './modules/about-us/about-us.component';
+import { ForgetpasswordComponent } from './auth/forgetpassword/forgetpassword.component';
+import { StoreinfoComponent } from './modules/dashboard/mystore/storeinfo/storeinfo.component';
+import { OrderdetailComponent } from './modules/dashboard/mystore/orders/orderdetail/orderdetail.component';
+import { HistoryComponent } from './modules/history/history.component';
+import { CharityComponent } from './modules/charity/charity.component';
 
 
 const routes: Routes = [
+
   {
     path: '',
     redirectTo: 'home',
@@ -84,12 +92,21 @@ const routes: Routes = [
             component: OrdertypeComponent,
           },
         ],
+
+      },
+      {
+        path: 'storeinfo/:id',
+        component: StoreinfoComponent,
       },
       {
         path: 'inventory/:name/:id',
         component: InventoryComponent,
       },
     ],
+  },
+  {
+    path: 'orders/orderdetail/:id',
+    component: OrderdetailComponent,
   },
   {
     path: 'cart',
@@ -105,14 +122,38 @@ const routes: Routes = [
     ],
   },
   {
+    path: 'charity',
+    component: CharityComponent,
+  },
+  {
+    path: 'history',
+    component: HistoryComponent,
+  },
+  {
     path: 'login',
     canActivate: [RedirectLoginGuard],
     component: AuthComponent,
   },
   {
+    path: 'forgetpassword',
+    component: ForgetpasswordComponent,
+  },
+  {
     path: 'signup',
     canActivate: [RedirectLoginGuard],
     component: AuthComponent,
+  },
+  {
+    path: 'Contact Us',
+    component: ContactUsComponent,
+  },
+  {
+    path: 'About Us',
+    component: AboutUsComponent,
+  },
+  {
+    path: 'tab-bar',
+    loadChildren: () => import('./modules/tab-bar/tab-bar.module').then( m => m.TabBarPageModule)
   },
 ];
 

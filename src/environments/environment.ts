@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   api_url: 'http://localhost:7000/api',
-  // https://medicalexpress.herokuapp.com/api   http://localhost:3000/api
+  // https://medicalexpress.herokuapp.com/api   http://localhost:7000/api
   firebaseConfig: {
     apiKey: 'AIzaSyAAhYIdrzBjKELgND53dkaQswDMbxcCb-Q',
     authDomain: 'medicalexpress-3e768.firebaseapp.com',

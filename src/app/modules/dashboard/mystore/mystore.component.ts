@@ -18,7 +18,9 @@ import { MedicineinfoComponent } from './inventory/medicineinfo/medicineinfo.com
 })
 export class MystoreComponent implements OnInit {
   // ---------------------------
+  imageUrl: string;
   // Flags
+  loading = false;
   flag = false;
   // Variables
   decodeUserId: string;
@@ -31,19 +33,7 @@ export class MystoreComponent implements OnInit {
     scrollbar: true,
     autoplay: true
    };
-   // Arrays
-   items = [
-     {
-    image: 'https://www.scnsoft.com/blog-pictures/ecommerce/how-to-sell-over-the-counter-medicine-and-prescription-drugs-online.png'
-    },
-    {
-    // tslint:disable-next-line: max-line-length
-      image: 'https://graphicriver.img.customer.envatousercontent.com/files/266027217/preview.jpg?auto=compress%2Cformat&q=80&fit=crop&crop=top&max-h=8000&max-w=590&s=b637943d2afdfd17074824cc0dd04b0a'
-    },
-    {
-      image: 'https://i.pinimg.com/736x/56/6c/e3/566ce3b1ee95c1620b396358156c2d7f.jpg'
-    },
-  ];
+   skeletonlist = [1];
   // ---------------------------
   constructor(
     public medicineServ: MedicineService,
@@ -58,12 +48,12 @@ export class MystoreComponent implements OnInit {
   ngOnInit() {
     this.loadStoreDetails();
   }
-
   /*
     Function to load Store details
     if it exists.
  */
   loadStoreDetails() {
+    this.loading = true;
     // we are getting the user information
     // from the token
     const token = this.jwtServ.getToken();
@@ -74,9 +64,21 @@ export class MystoreComponent implements OnInit {
     // MongoDB
     this.storeServ.getStoreByUserId(this.decodeUserId).subscribe((data) => {
       if (data) {
+        setTimeout(() => {
+          this.loading = false;
+        }, 1000);
+        console.log(data);
         console.log(data);
         this.flag = true;
         this.store = data;
+        this.imageUrl = this.store.image;
+        console.log(this.imageUrl);
+      } else {
+        this.loading = false;
+        this.flag = false;
+        this.store = null;
+        this.imageUrl = '';
+        // console.log(this.imageUrl);
       }
     });
   }
@@ -97,6 +99,8 @@ export class MystoreComponent implements OnInit {
         } else {
           this.flag = true;
           this.store = data.data;
+          this.imageUrl = this.store.image;
+          console.log(this.imageUrl);
           console.log(this.store);
         }
       });
@@ -123,6 +127,8 @@ export class MystoreComponent implements OnInit {
         } else {
           this.flag = true;
           this.store = data.data;
+          this.imageUrl = this.store.image;
+          console.log(this.imageUrl);
           console.log(this.store);
         }
       });
@@ -212,6 +218,9 @@ export class MystoreComponent implements OnInit {
   // #####################################################################################
   /*
    */
+  storeInfo(storeid: string) {
+    this.router.navigate(['dashboard', 'mystore', 'storeinfo', storeid]);
+  }
   medicineInventory(name: string, id: string) {
     this.router.navigate(['dashboard', 'mystore', 'inventory', name, id]);
   }

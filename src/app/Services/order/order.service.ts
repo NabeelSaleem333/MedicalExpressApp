@@ -18,7 +18,10 @@ export class OrderService {
     return this.httpClient.post(this.URL + '/orders', body);
   }
   public getOrder(userId): Observable<any> {
-    return this.httpClient.get(this.URL + `/orders/${userId}`);
+    return this.httpClient.get(this.URL + `/orders/user/${userId}`);
+  }
+  public getStoreOrder(storeId): Observable<any> {
+    return this.httpClient.get(this.URL + `/orders/store${storeId}`);
   }
   // Function to get seller orders type list
   public get_seller_order_list(userId: string, orderstatus: string): Observable<any> {
@@ -35,4 +38,9 @@ export class OrderService {
     console.log(orderId, orderstatus);
     return this.httpClient.get(this.URL + `/orders/update/${orderId}/${orderstatus}`);
   }
+    // Function to get seller orders type list
+    public get_single_order(orderId: string): Observable<any> {
+      console.log(orderId);
+      return this.httpClient.get(this.URL + `/orders/get/${orderId}`);
+    }
 }

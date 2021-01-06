@@ -2,7 +2,8 @@
   <ion-toolbar >
     <ion-item lines="none" color="primary">
     <ion-buttons slot="start">
-      <ion-icon name="arrow-back" (click)="closeFunc()"></ion-icon>
+      <!-- <ion-icon name="arrow-back" (click)="closeFunc()"></ion-icon> -->
+      <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title *ngIf="flag">Edit Store</ion-title>
     <ion-title *ngIf="!flag">Create Store</ion-title>

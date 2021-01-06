@@ -1,7 +1,8 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <!-- <ion-menu-button></ion-menu-button> -->
+      <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>Medicine</ion-title>
     <ion-buttons slot="end">
@@ -11,74 +12,49 @@
       <ion-button (click)="cardDisplay()">
         <ion-icon name="grid"></ion-icon>
       </ion-button>
-
-      <ion-button>
-        <ion-icon name="ellipsis-vertical"></ion-icon>
-      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<!-- <ion-item>
-  <ion-list-header
-    ><ion-button (click)="navigateToStores()"
-      >Medical Store<ion-icon name="navigate"></ion-icon></ion-button
-  ></ion-list-header> -->
-  <!-- <ion-buttons slot="end"> -->
-    <!-- <ion-button (click)="searchBarDisplay()">
-      <ion-icon name="search"></ion-icon>
-    </ion-button> -->
-    <!-- <ion-button (click)="listDisplay()">
-      <ion-icon name="list"></ion-icon>
-    </ion-button>
-    <ion-button (click)="cardDisplay()">
-      <ion-icon name="grid"></ion-icon>
-    </ion-button>
-  </ion-buttons>
-</ion-item>
-<ion-item> -->
-  <!-- (keyup)="onKeyUp($event)" -->
+
   <ion-searchbar
-    color="medium"
-    placeholder="Search by store name or address"
+    color="medium" 
+    placeholder="Search by store name
+     or address"
     [(ngModel)]="search"
+    (change)="saveSearch($event)" autocorrect="off"
   ></ion-searchbar>
-  <!-- <ion-buttons>
-    <ion-button>
-      <ion-icon name="options-sharp"></ion-icon>
-    </ion-button>
-  </ion-buttons> -->
-<!-- </ion-item> -->
 <ion-list-header>
-  Category:
   <ion-select value="all" (ionChange)="onSelect($event)">
     <ion-select-option value="all">All</ion-select-option>
-    <ion-select-option value="tablet">Tablet</ion-select-option>
-    <ion-select-option value="capsule">Capsule</ion-select-option>
-    <ion-select-option value="syrup">Syrup</ion-select-option>
-    <ion-select-option value="injection">Injection</ion-select-option>
-    <ion-select-option value="tube">Tube</ion-select-option>
-    <ion-select-option value="others">Others</ion-select-option>
+    <ion-select-option value="Tablet">Tablet</ion-select-option>
+    <ion-select-option value="Capsule">Capsule</ion-select-option>
+    <ion-select-option value="Syrup">Syrup</ion-select-option>
+    <ion-select-option value="Injection">Injection</ion-select-option>
+    <ion-select-option value="Tube">Tube</ion-select-option>
+    <ion-select-option value="Others">Others</ion-select-option>
   </ion-select>
 </ion-list-header>
 <!-- <hr style = "background-color: black;"> -->
 <ion-item-divider></ion-item-divider>
 <ion-content>
   <!-- No internet flag -->
+  <div *ngIf="!loading">
   <div *ngIf="internetflag">
     <div *ngIf="flag1">
       <ion-grid>
         <ion-row *ngIf="!switch">
-          <ion-col>
+          <ion-col size='12' size-lg='8' offset-lg='2'>
             <ion-list *ngFor="let medicine of tempArray | filter:search">
               <ion-item
                 *ngIf="medicine.format || onselect === 'all'"
-                style="border-radius: 1em;"
+                
                 color="light"
+                (click)="medicineOnStores(medicine._id)"
               >
                 <ion-label slot="start">
                   <img
                     style="width: 100px; height: 100px;"
-                    src="assets/images/MartialKing.PNG"
+                    src="{{medicine.image}}"
                   />
                 </ion-label>
                 <ion-label slot="start">
@@ -87,40 +63,39 @@
                   <p>{{ medicine.format }}</p>
                   <p>{{ medicine.ingredients }}mg</p>
                 </ion-label>
-                <!-- <ion-label style="text-align: center;"> </ion-label> -->
-                <ion-button slot="end" (click)="medicineOnStores(medicine._id)"
-                  >ON
-                  <ion-icon name="navigate-sharp"></ion-icon>
-                </ion-button>
               </ion-item>
             </ion-list>
           </ion-col>
         </ion-row>
         <!-- CARD DISPLAY -->
+        <!--  -->
         <ion-row *ngIf="switch">
           <ion-col *ngFor="let medicine of tempArray | filter:search">
-            <!-- In this form of Cards the Data will be present -->
             <ion-card
               class="welcome-card"
-              style="width: 250px;height:400px; border-radius: 10px;"
-              color="dark"
+              style=" width: 250px;height:320px; border-radius: 10px; text-align: center;"
             >
+            <!--  -->
             <img style=" width: 250px;
-                height:200px;  border: 3px solid white; border-radius: 10px;" 
-                [src]="medicine.image" alt="Medicine-Image" />
+            height:200px;  border: 3px solid white; border-radius: 10px;" 
+                src="{{medicine.image}}" alt="Medicine-Image"  (click)="medicineOnStores(medicine._id)"/>
    
               <img   />
               <ion-card-header> 
                 <ion-card-title>{{ medicine.medicinename }}</ion-card-title>
-                <ion-card-subtitle>{{ medicine.formula }}</ion-card-subtitle>
+                <!-- <ion-card-subtitle>{{ medicine.formula }}</ion-card-subtitle> -->
               </ion-card-header>
               <ion-card-content>
-                <p>{{ medicine.format }}</p>
-                <p>{{ medicine.ingredients }}mg</p>
-                <ion-button (click)="medicineOnStores(medicine._id)"
+                <ion-label>
+                {{ medicine.format }}
+              </ion-label>
+              <ion-label>
+                {{ medicine.ingredients }}mg
+              </ion-label>
+                <!-- <ion-button (click)="medicineOnStores(medicine._id)"
                   >ON
                   <ion-icon name="navigate-sharp"></ion-icon>
-                </ion-button>
+                </ion-button> -->
               </ion-card-content>
             </ion-card>
           </ion-col>
@@ -131,6 +106,20 @@
       <p>Oops, No store found</p>
     </div>
   </div>
+</div>
+
+<div *ngIf="loading">
+  <ion-list>
+    <ion-item *ngFor="let s of skeletonlist">
+      <ion-thumbnail slot="start">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-thumbnail>
+      <ion-label>
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</div>
   <div *ngIf="!internetflag" style="text-align: center;">
     <p>Oops, No Internet</p>
   </div>

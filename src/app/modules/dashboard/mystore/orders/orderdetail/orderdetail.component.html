@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Order Detial</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <h3 style="text-align: center;">Order Details</h3>
+  <div>
+    <ion-item *ngIf="flag">
+      <ion-label>
+        <h3>Order ID : {{ order._id }}</h3>
+        <h3>Store Name :  {{ order.storename }}</h3>
+        <h3>{{order.createdAt | date:'short'}}</h3>
+        <h3>Payment Method : {{ order.paymentmethod }}</h3>
+        <h3>Medicines : {{ order.medicines.length }}</h3>
+      </ion-label>
+    </ion-item>
+    <ion-list *ngIf="flag">
+      <ion-item *ngFor="let item of order.medicines">
+        <p>{{item.medicinename}}</p>
+        
+        <ion-label slot="end">
+          <p>{{item.format}}</p>
+        </ion-label>
+        <ion-label slot="end">
+          <p>Rs. {{item.price * item.quantity}}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item *ngIf="flag">
+        <ion-label slot="start">
+          <h4>Grand Total</h4>
+        </ion-label>
+        <ion-label slot="end">
+          <h4>Rs.{{order.amountpaid}}</h4> 
+        </ion-label>
+      </ion-item>
+    </ion-list>
+    <p *ngIf="flag" style="text-align: center;">
+    <ion-badge color='primary' *ngIf="order.orderstatus === 'New'"> {{ order.orderstatus }}</ion-badge>
+    <ion-badge color='medium' *ngIf="order.orderstatus === 'Cancel'"> {{ order.orderstatus }}</ion-badge>
+    <ion-badge color='success' *ngIf="order.orderstatus === 'Received'"> {{ order.orderstatus }}</ion-badge>
+    </p>
+  </div>
+  <!-- <div style="text-align: center;" *ngIf="flag">
+    Payment Method: <b>{{order.paymentmethod}}</b>
+  </div> -->
+</ion-content>

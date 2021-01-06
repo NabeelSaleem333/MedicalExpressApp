@@ -69,24 +69,20 @@ export class OrderbillComponent implements OnInit {
  /* A function to final the order */
  checkOut() {
   // tslint:disable-next-line: prefer-const
-  // let array = [];
-  // let count = 0;
+  // let total = 0 ;
   // for (const m of this.cart) {
-  //   array[count] = {
-  //     medicineId: m.medicineId,
-  //     price: m.price,
-  //     quantity: m.quantity,
-  //   };
-  //   count += 1;
+  //     total += m.price * m.quantity;
   // }
-
+  // console.log('total amount: ', total);
   this.order = {
     userId: this.jwtServ.getUserId(),
+    username: this.jwtServ.getUserName(),
     storeId: this.storeId,
+    storename: this.storeServ.store.name,
     medicines: this.cart,
-    amountpaid: 2000,
-    paymentmethod: 'cash',
-    orderstatus: 'new'
+    amountpaid: this.total,
+    paymentmethod: 'Cash',
+    orderstatus: 'New'
   };
   console.log(this.order);
   this.orderServ.placeOrder(this.order).subscribe(data => {
@@ -117,7 +113,9 @@ export class Medicine {
 
 export class Order {
     userId: string;
+    username: string;
     storeId: string;
+    storename: string;
     medicines: Array<any>;
     amountpaid: number;
     paymentmethod: string;

@@ -24,6 +24,7 @@ export class Store {
     license: string;
     address: string;
     city: string;
+    price: string;
     province: string;
     date: Date;
     userId: string;

@@ -11,6 +11,7 @@ import { StoresService } from 'src/app/Services/store/stores.service';
 import { Store } from 'src/app/models/schemas';
 import { OrderService } from 'src/app/Services/order/order.service';
 import { JwtService } from 'src/app/core/services/jwt.service';
+import { MessageService } from 'src/app/Services/message/message.service';
 
 @Component({
   selector: 'app-ordertype',
@@ -19,6 +20,7 @@ import { JwtService } from 'src/app/core/services/jwt.service';
 })
 export class OrdertypeComponent implements OnInit {
   usertype: string;
+  userId: string;
   storeId: string;
     // Counters
     ordertype = '';
@@ -36,6 +38,7 @@ export class OrdertypeComponent implements OnInit {
   constructor(
     public orderServ: OrderService,
     private jwtServ: JwtService,
+    private msgServ: MessageService,
     private modalController: ModalController,
     private router: Router,
     private route: ActivatedRoute
@@ -54,40 +57,46 @@ export class OrdertypeComponent implements OnInit {
     this.orderServ.getOrder(this.storeId).subscribe(data => {
       console.log(data);
       if (data.success) {
-        this.buyer_newCount = data.buyer_orders.new;
-        this.buyer_cancelCount = data.buyer_orders.cancel;
-        this.buyer_completeCount = data.buyer_orders.complete;
+        this.buyer_newCount = data.seller_orders.new;
+        this.buyer_cancelCount = data.seller_orders.cancel;
+        this.buyer_completeCount = data.seller_orders.complete;
         console.log(this.buyer_newCount, this.buyer_cancelCount, this.buyer_completeCount);
       } else {
         console.log('There is no order in the list');
       }
     });
   }
-  /*  */
-  cancelOrder(orderId: string, orderstatus: string) {
-    this.orderServ.update_order_status(orderId, orderstatus).subscribe(data => {
-        console.log(data);
-        this.getOrderList();
-    });
-  }
+
   saveSettings(evnet) {
     console.log('In My Orders: ', this.ordertype);
     this.orderServ
-        .get_buyer_order_list(this.storeId, this.ordertype)
+        .get_seller_order_list(this.storeId, this.ordertype)
         .subscribe((data) => {
             console.log(data);
             if (data.success) {
             // console.log(data.status);
-            this.orders = data.buyer_orders;
+            this.orders = data.seller_orders;
             console.log(this.orders);
+            this.msgServ.message(data.status);
+          } else {
+            this.msgServ.message(data.status);
           }
         });
   }
+  /*  */
+  cancelOrder(orderId: string, orderstatus: string) {
+      this.orderServ.update_order_status(orderId, orderstatus).subscribe(data => {
+          console.log(data);
+          this.getOrderList();
+          this.msgServ.message(data.status);
+      });
+    }
   /*  */
   receivedOrder(orderId: string, orderstatus: string) {
   this.orderServ.update_order_status(orderId, orderstatus).subscribe(data => {
       console.log(data);
       this.getOrderList();
+      this.msgServ.message(data.status);
   });
   }
   /*  */
@@ -95,6 +104,9 @@ export class OrdertypeComponent implements OnInit {
     this.modalController.dismiss({
       dismissed: true,
     });
+  }
+  orderdetail(id: string) {
+    this.router.navigate(['orders/orderdetail', id]);
   }
 }
 
